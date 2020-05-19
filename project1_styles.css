@@ -122,9 +122,14 @@ tray,serving, cashier {
     height:190px;
 }
 
-ingredient {
+food {
     width:60px;
     height:60px;
+}
+
+food img {
+    width: 100%;
+    height: 100%;
 }
 
 bento {
@@ -206,3 +211,5 @@ action {
     background-color: #CBEA00;
     box-sizing: border-box;
   }
+
+  /* Classes */
