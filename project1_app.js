@@ -126,11 +126,13 @@ class Customer {
             if (this.isOrderCompleted()) {
                 delayedAction(() => {
                     // this.pay();
-                    this.leave();
+                    this.leave(HAPPY);
                 }, CUST_DELAY_IN_MS)
                     .then(() => {
                         return delayedAction(() => {
-                            fetchCustomer(getUniqueSuperheroesID());
+                            if (shop.isStoreOpen) {
+                                fetchCustomer(getUniqueSuperheroesID());
+                            }
                         }, CUST_DELAY_IN_MS)
                     });
             };
@@ -148,8 +150,12 @@ class Customer {
     eat() {
 
     }
-    leave() {
+    leave(mood) {
         //leave the store
+        if (mood === HAPPY) {
+            shop.happyCust++;
+            updateDisplay();
+        }
         console.log(this.custName + ' leave store');
         $('#' + this.custSlot)
             .empty()
@@ -229,7 +235,9 @@ const buildTodayFOOD_ARR = (num) => {
 
 const checkOrder = (foodID, custID) => {
     const thisCust = shop.getCustomerByID(custID);
-    thisCust.checkOrder(shop.getFoodByID(parseInt(foodID)));
+    if (shop.isStoreOpen) {
+        thisCust.checkOrder(shop.getFoodByID(parseInt(foodID)));
+    }
 }
 
 const displayFood = () => {
@@ -359,7 +367,6 @@ const openStore = () => {
     console.log(`store is open for day ${shop.currDay}`);
     shop.isStoreOpen = true;
     shop.earning += 100;
-    happyCust += 5;
     //generate customer with random order till the timer run out
     keepCustomerComeIn();
 
