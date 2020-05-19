@@ -1,0 +1,147 @@
+/* Import some fonts */
+
+@import url('https://fonts.googleapis.com/css?family=Dosis|Nunito');
+* {
+    margin: 0;
+    padding: 0;
+    border: 0.05rem solid gainsboro;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    color: rgb(50, 50, 50);
+    /*set default font color for the whole site */
+    font-family: 'Open Sans Condensed', sans-serif;
+    /*set default font family for the whole site */
+}
+
+/* flex class */
+
+.flex {
+    display: flex;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.col {
+    flex-direction: column;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.nowrap {
+    flex-wrap: nowrap;
+}
+
+.space-evenly {
+    justify-content: space-evenly;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.space-center {
+    justify-content: center;
+}
+
+.align-start {
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.align-end {
+    align-items: flex-end;
+    align-content: flex-end;
+}
+
+.align-center {
+    align-items: center;
+    align-content: center;
+}
+
+.red {
+    border-color: red;
+}
+
+.green {
+    border-color: lightgreen;
+}
+
+.blue {
+    border-color: steelblue;
+}
+
+.fullwidth {
+    width: 100%;
+}
+
+.halfwidth {
+    width: 50%;
+}
+
+/* Areas sizes */
+
+container {
+    width: 750px;
+    margin: 0 auto;
+}
+
+topbar {
+    height: 40px;
+}
+
+day, timebar, happy, angry {
+    width: 75px;
+}
+
+money {
+    width: 150px;
+}
+
+customer {
+    height: 150px;
+}
+
+counter {
+    height: 50px;
+}
+
+tray,serving, cashier {
+    width:190px;
+    height:190px;
+}
+
+ingredient {
+    width:60px;
+    height:60px;
+}
+
+bento {
+    width:160px;
+    height:160px;
+}
+
+box {
+    width:75px;
+    height:75px;
+}
+
+cooker,laptop {
+    width: 100px;
+    height: 100px;
+}
+
+action {
+    width: 500px;
+}
