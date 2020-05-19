@@ -52,9 +52,9 @@ class Shop {
         this.currDay = ZERO;
         this.isStoreOpen = false;
         this.level = 1;
-        this.earning = ZERO;
-        this.happyCust = ZERO;
-        this.currCost = ZERO;
+        this.todayEarning = ZERO;
+        this.todayHappyCust = ZERO;
+        this.todayCost = ZERO;
         this.todayCust = [];
         this.todayFood = [];
         this.todayUniqueCustID = [];
@@ -64,6 +64,22 @@ class Shop {
     }
     getFoodByID(id) {
         return this.todayFood.find(food => food.foodID === id);
+    }
+    prepare () {
+        resetVars();
+        prepareFood();
+        updateDisplay();
+    }
+    open() {
+        console.log(`store is open for day ${this.currDay}`);
+        shop.isStoreOpen = true;
+        //generate customer with random order till the timer run out
+        generateInitialCustomer();
+    }
+    close () {
+        console.log(`closing store for day ${this.currDay}`);
+        shop.isStoreOpen = false;
+        cleaningSlots();
     }
 }
 
@@ -116,12 +132,13 @@ class Customer {
         $('#' + this.custSlot)
             .html(`<span>${this.custOrderSaying}</span>`);
     }
-    checkOrder(servedFood) {
-        console.log('servedFood: ', servedFood);
-        console.log('custOrder: ', this.custOrder);
-        if (this.custOrder.indexOf(servedFood) >= 0) {
+    checkOrder(foodID) {
+        const servedFood = shop.getFoodByID(parseInt(foodID));
+        // console.log('servedFood: ', servedFood);
+        // console.log('custOrder: ', this.custOrder);
+        if ((this.custOrder.indexOf(servedFood) >= 0) && (shop.isStoreOpen)) {
             this.custFulfilled.push(servedFood);
-            console.log('custFulfilled: ', this.custFulfilled);
+            // console.log('custFulfilled: ', this.custFulfilled);
             this.sayOrder();
             if (this.isOrderCompleted()) {
                 delayedAction(() => {
@@ -154,13 +171,13 @@ class Customer {
             console.log(food.foodName + ': ' + food.foodPriceinSGD);
         })
         console.log('total: ' + receipt);
-        shop.earning += receipt;
+        shop.todayEarning += receipt;
         updateDisplay();
     }
     leave(mood) {
         //leave the store
         if (mood === HAPPY) {
-            shop.happyCust++;
+            shop.todayHappyCust++;
             updateDisplay();
         }
         console.log(this.custName + ' leave store');
@@ -195,13 +212,6 @@ class FoodOrigin {
         this.originCountry = country || 'Singapore';
         this.originCurrency = currency || 'SGD';
         this.originRate = rate || 1;
-    }
-}
-
-class DailySummary {
-    constructor() {
-        this.day = day;
-        this.totalIngredientCost = totalCost;
     }
 }
 
@@ -240,13 +250,6 @@ const buildTodayFOOD_ARR = (num) => {
     // console.log(shop.todayFood); /* debug */
 }
 
-const checkOrder = (foodID, custID) => {
-    const thisCust = shop.getCustomerByID(custID);
-    if (shop.isStoreOpen) {
-        thisCust.checkOrder(shop.getFoodByID(parseInt(foodID)));
-    }
-}
-
 const displayFood = () => {
     shop.todayFood.forEach((element, index) => {
         //place in the tray
@@ -260,7 +263,9 @@ const displayFood = () => {
         accept: ".draggable",
         drop: function (event, ui) {
             $(this).removeClass("border").removeClass("over");
-            checkOrder(ui.draggable.attr('id'), $(event.target).attr('custid'));
+            const custID = $(event.target).attr('custid');
+            const thisCust = shop.getCustomerByID(custID);
+            thisCust.checkOrder(ui.draggable.attr('id'));
         },
         over: function (event, elem) {
             $(this).addClass("over");
@@ -278,9 +283,9 @@ const prepareFood = () => {
 }
 
 const resetVars = () => {
-    shop.earning = ZERO;
-    shop.happyCust = ZERO;
-    shop.currCost = [];
+    shop.todayEarning = ZERO;
+    shop.todayHappyCust = ZERO;
+    shop.todayCost = [];
     shop.todayFood.splice(ZERO, shop.todayFood.length); //empty array without reassigning
     shop.todayCust.splice(ZERO, shop.todayCust.length);
     shop.todayUniqueCustID.splice(ZERO, shop.todayUniqueCustID.length);
@@ -296,8 +301,8 @@ const cleaningSlots = () => {
 
 const updateDisplay = () => {
     $('#day').text(`Day: ${shop.currDay}`);
-    $('#money').text(`SGD ${shop.earning}`);
-    $('#happy').text(`${String.fromCodePoint(128523)} ${shop.happyCust}`); //&#128523; smiley deliciously 😋
+    $('#money').text(`SGD ${shop.todayEarning}`);
+    $('#happy').text(`${String.fromCodePoint(128523)} ${shop.todayHappyCust}`); //&#128523; smiley deliciously 😋
     //&#128545; angry face 😡
 }
 
@@ -370,20 +375,6 @@ const generateInitialCustomer = () => {
         })
 }
 
-const openStore = () => {
-    console.log(`store is open for day ${shop.currDay}`);
-    shop.isStoreOpen = true;
-    //generate customer with random order till the timer run out
-    generateInitialCustomer();
-}
-
-const closeStore = () => {
-    console.log(`closing store for day ${shop.currDay}`);
-    shop.isStoreOpen = false;
-    cleaningSlots();
-}
-
-
 const progress = (timeleft, timetotal, $element) => {
     var progressBarWidth = timeleft * $element.width() / timetotal;
     $element.find('div').animate({ width: progressBarWidth }, timeleft == timetotal ? 0 : 1000, 'linear');
@@ -393,7 +384,7 @@ const progress = (timeleft, timetotal, $element) => {
         }, 1000);
     } else {
         setTimeout(() => {
-            closeStore();//calculate the summary
+            shop.close();//calculate the summary
             setMessage(DAY_SUMMARY[shop.currDay], START_DAY);
             setTimeout(displayMessage, 1000);
         }, 1000);
@@ -401,16 +392,10 @@ const progress = (timeleft, timetotal, $element) => {
 
 };
 
-const prepareStore = () => {
-    resetVars();
-    prepareFood();
-    updateDisplay();
-}
-
 const startDay = (day, DAY_SECONDS) => {
     console.log(`Started day ${day}`);
-    prepareStore(); //all the display preparation
-    openStore(); //where customer come in
+    shop.prepare(); //all the display preparation
+    shop.open(); //where customer come in
     progress(DAY_SECONDS, DAY_SECONDS, $('#timebar'));
 }
 
