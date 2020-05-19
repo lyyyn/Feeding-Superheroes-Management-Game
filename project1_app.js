@@ -59,10 +59,18 @@ class DailySummary {
 
 //variable declaration
 const START_DAY = 'Start Day';
+const DAY_SECONDS = 20;
 const DAY_MESSAGE = ['Ready for your first day?']
 const DAY_SUMMARY = ['', 'Summary of Day 1','Summary of Day 2','Summary of Day 3','Summary of Day 4','Summary of Day 5'];
+const CUSTOMER_LIST = {
+    level: 1,
+    customer_names: []
+}
 
 let currDay = 0;
+let level = 1;
+let earning = 0;
+let happyCust = 0;
 
 //DOM variables  
 const $modal = $('#modal');
@@ -70,6 +78,36 @@ const $modalContent = $('#modal-content');
 const $messageButton = $('#modal-close');
 
 //various functions
+const buyFood = () => {
+    console.log(`buying food for day ${currDay}`);
+}
+
+const prepareFood = () => {
+    console.log(`preparing food for day ${currDay}`);
+}
+
+const resetVars = () => {
+    earning = 0;
+    happyCust = 0;
+}
+
+const updateDisplay = () => {
+    $('#day').text(`Day: ${currDay}`);
+    $('#money').text(`SGD ${earning}`);
+    $('#happy').text(`😍 ${happyCust}`); //&#128525; smiley with heart eyes
+}
+
+const openStore = () => {
+    console.log(`store is open for day ${currDay}`);
+    earning += 100;
+    happyCust += 5;
+}
+
+const closeStore = () => {
+    console.log(`closing store for day ${currDay}`);
+}
+
+
 const progress = (timeleft, timetotal, $element) => {
     var progressBarWidth = timeleft * $element.width() / timetotal;
     $element.find('div').animate({ width: progressBarWidth }, timeleft == timetotal ? 0 : 1000, 'linear');
@@ -79,6 +117,7 @@ const progress = (timeleft, timetotal, $element) => {
         }, 1000);
     } else {
         setTimeout(() => {
+            closeStore();//calculate the summary
             setMessage(DAY_SUMMARY[currDay], START_DAY);
             setTimeout(displayMessage, 1000);
         }, 1000);
@@ -86,10 +125,18 @@ const progress = (timeleft, timetotal, $element) => {
 
 };
 
-const startDay = (day) => {
+const prepareStore = () => {
+    buyFood();
+    prepareFood();
+    resetVars();
+    updateDisplay();
+}
+
+const startDay = (day,DAY_SECONDS) => {
     console.log(`Started day ${day}`);
-    progress(5, 5, $('#timebar'));
-    
+    prepareStore(); //all the display preparation
+    openStore(); //where customer come in
+    progress(DAY_SECONDS, DAY_SECONDS, $('#timebar'));
 }
 
 const displayMessage = () => {
@@ -112,7 +159,7 @@ $messageButton.on('click', (Event) => {
     //check if start new day
     if ($messageButton.text() === START_DAY) {
         currDay++;
-        startDay(currDay);
+        startDay(currDay,DAY_SECONDS);
     }
 });
 
