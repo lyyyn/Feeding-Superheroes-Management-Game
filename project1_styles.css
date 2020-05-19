@@ -21,6 +21,11 @@ body {
     /*set default font family for the whole site */
 }
 
+img {
+    height: 75px;
+    width: 75px;
+}
+
 /* flex class */
 
 .flex {
@@ -142,8 +147,12 @@ food {
 }
 
 food img {
-    width: 100%;
-    height: 100%;
+    width: 60px;
+    height: 60px;
+}
+
+.over {
+    border: 2px solid red;
 }
 
 bento {
@@ -154,6 +163,11 @@ bento {
 box {
     width: 75px;
     height: 75px;
+}
+
+box img{
+    width: 100%;
+    height: 100%;
 }
 
 cooker, laptop {

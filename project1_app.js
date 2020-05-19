@@ -55,29 +55,29 @@ class Customer {
         $('#' + this.custSlot)
             .html(`<span>${orderFormat(cOrder)}</span>`);
     }
-    eat(){
-        
+    eat() {
+
     }
     leave() {
         //enter the store
     }
-    
+
 
 }
 
 class Food {
-    constructor(fdArr) {
-        this.foodID = fdArr[0];
-        this.foodName = fdArr[1];
-        this.foodIngredients = fdArr[2];
-        this.foodOrigin = fdArr[3];
-        this.foodType = fdArr[4];
-        this.foodMethod = fdArr[5];
-        this.foodCostFrSupplier = fdArr[6];
-        this.foodPriceinSGD = fdArr[7];
-        this.foodRating = fdArr[8];
-        this.foodQty = fdArr[9];
-        this.foodImage = fdArr[10];
+    constructor(fdObj) {
+        this.foodID = fdObj.foodID;
+        this.foodName = fdObj.foodName;
+        this.foodIngredients = fdObj.foodIngredients;
+        this.foodOrigin = fdObj.foodOrigin;
+        this.foodType = fdObj.foodType;
+        this.foodMethod = fdObj.foodMethod;
+        this.foodCostFrSupplier = fdObj.foodCostFrSupplier;
+        this.foodPriceinSGD = fdObj.foodPriceinSGD;
+        this.foodRating = fdObj.foodRating;
+        this.foodQty = fdObj.foodQty;
+        this.foodImage = fdObj.foodImage;
     }
 }
 
@@ -124,19 +124,19 @@ const LIST_OF_BROKEN_HEROES = [51, 54, 74, 101, 113, 117, 131, 133, 134, 143, 16
 const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into class and create instance
 const ORDER_NULL_PROBABILITY = 30;
 const DAY_MESSAGE = ['Ready for your first day?'];
-const ENTRY_GREETINGS = ['Hullo','Hi','Ooosh!','How do you do','Goodday','G\'day','Good afternoon'];
+const ENTRY_GREETINGS = ['Hullo', 'Hi', 'Ooosh!', 'How do you do', 'Goodday', 'G\'day', 'Good afternoon'];
 const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
 const DAY_SUMMARY = ['', 'Summary of Day 1', 'Summary of Day 2', 'Summary of Day 3', 'Summary of Day 4', 'Summary of Day 5'];
 const FOOD_ARR = [ //plan to read from files in the future
-    [0, 'Oolong Tea', 'Tea', 'China', 'Drink', 'Boil', 6, 2, 2, 0, 'https://i.ibb.co/jDVRwQ0/drink-tea.png'],
-    [1, 'Arabica Coffee', 'Coffee', 'Indonesia', 'Drink', 'Boil', 15000, 2.5, 2, 0, 'https://i.ibb.co/5xy7jMz/drink-coffee.png'],
-    [2, 'Kunlun Water', 'Water', 'China', 'Drink', 'Boil', 5, 1.5, 1, 0, 'https://i.ibb.co/kQ9GXxS/drink-water.png'],
-    [3, 'Yunnan Broccoli', 'Broccoli', 'China', 'Veggie', 'Steam', 9, 4, 1, 0, 'https://i.ibb.co/7b33T88/food-steam-Broccoli.png'],
-    [4, 'Egg-Custard', 'Egg', 'China', 'Protein', 'Steam', 15.6, 5.25, 1, 0, 'https://i.ibb.co/GcPm5wf/food-steam-Egg.png'],
-    [5, 'Steam Tofu', 'Tofu', 'China', 'Protein', 'Steam', 12.5, 4.5, 1, 0, 'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png'],
-    [6, 'Hainan Chicken', 'Chicken', 'China', 'Meat', 'Steam', 18.25, 6, 1, 0, 'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png'],
-    [7, 'Steam Fish', 'Fish', 'China', 'Meat', 'Steam', 20.3, 7, 2, 0, 'https://i.ibb.co/rssrvZL/food-steam-Fish.png'],
-    [8, 'Hom Mali Rice', 'Rice', 'Thailand', 'Carbo', 'Steam', 40, 3, 1, 0, 'https://i.ibb.co/TvddwdV/food-Rice.png']
+    {foodID:0,foodName:'Oolong Tea',foodIngredients:'Tea',foodOrigin:'China',foodType:'Drink',foodMethod:'Boil',foodCostFrSupplier:6,foodPriceinSGD:2,foodRating:2,foodQty:10,foodImage:'https://i.ibb.co/jDVRwQ0/drink-tea.png'},
+    {foodID:1,foodName:'Arabica Coffee',foodIngredients:'Coffee',foodOrigin:'Indonesia',foodType:'Drink',foodMethod:'Boil',foodCostFrSupplier:15000,foodPriceinSGD:2.5,foodRating:2,foodQty:10,foodImage:'https://i.ibb.co/5xy7jMz/drink-coffee.png'},
+    {foodID:2,foodName:'Kunlun Water',foodIngredients:'Water',foodOrigin:'China',foodType:'Drink',foodMethod:'Boil',foodCostFrSupplier:5,foodPriceinSGD:1.5,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/kQ9GXxS/drink-water.png'},
+    {foodID:3,foodName:'Yunnan Broccoli',foodIngredients:'Broccoli',foodOrigin:'China',foodType:'Veggie',foodMethod:'Steam',foodCostFrSupplier:9,foodPriceinSGD:4,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/7b33T88/food-steam-Broccoli.png'},
+    {foodID:4,foodName:'Egg Custard',foodIngredients:'Egg',foodOrigin:'China',foodType:'Protein',foodMethod:'Steam',foodCostFrSupplier:15.6,foodPriceinSGD:5.25,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/GcPm5wf/food-steam-Egg.png'},
+    {foodID:5,foodName:'Steam Tofu',foodIngredients:'Tofu',foodOrigin:'China',foodType:'Protein',foodMethod:'Steam',foodCostFrSupplier:12.5,foodPriceinSGD:4.5,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png'},
+    {foodID:6,foodName:'Hainan Chicken',foodIngredients:'Chicken',foodOrigin:'China',foodType:'Meat',foodMethod:'Steam',foodCostFrSupplier:18.25,foodPriceinSGD:6,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png'},
+    {foodID:7,foodName:'Steam Fish',foodIngredients:'Fish',foodOrigin:'China',foodType:'Meat',foodMethod:'Steam',foodCostFrSupplier:20.3,foodPriceinSGD:7,foodRating:2,foodQty:10,foodImage:'https://i.ibb.co/rssrvZL/food-steam-Fish.png'},
+    {foodID:8,foodName:'Thai Rice',foodIngredients:'Rice',foodOrigin:'Thailand',foodType:'Carbo',foodMethod:'Steam',foodCostFrSupplier:40,foodPriceinSGD:3,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/TvddwdV/food-Rice.png'}
 ]
 
 const todayFood = [];
@@ -171,8 +171,8 @@ const randomizeCustOrder = () => { //array of 4 food item from todayFood
 
 const buildTodayFOOD_ARR = (num) => {
     let food = null;
-    FOOD_ARR.forEach(element => {
-        food = new Food(element);
+    FOOD_ARR.forEach(obj => {
+        food = new Food(obj);
         todayFood.push(food);
         // console.log(food);
     });
@@ -183,8 +183,41 @@ const displayFood = () => {
     todayFood.forEach((element, index) => {
         //place in the tray
         $('.food:nth-child(' + (index + 1) + ')')
-            .html(`<img src="${element.foodImage}">`);
+            .html(`<img src="${element.foodImage}" class="draggable" id="${element.foodID}">`)
     });
+    //make food draggable
+    $(".draggable").draggable({ helper: "clone" });
+    //make box droppable
+    $(".box").droppable({
+        accept: ".draggable",
+        drop: function (event, ui) {
+            console.log("drop");
+            $(this).removeClass("border").removeClass("over").removeClass("ui-droppable");
+            let dropped = ui.draggable;
+            let droppedOn = $(this);
+            $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
+        },
+        over: function (event, elem) {
+            $(this).addClass("over");
+            console.log("over");
+        }
+        ,
+        out: function (event, elem) {
+            $(this).removeClass("over");
+        }
+    });
+
+    // $("#origin").droppable({
+    //     accept: ".draggable", drop: function (event, ui) {
+    //         console.log("drop");
+    //         $(this).removeClass("border").removeClass("over");
+    //         var dropped = ui.draggable;
+    //         var droppedOn = $(this);
+    //         $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
+
+
+    //     }
+    // });
 }
 
 const prepareFood = () => {
