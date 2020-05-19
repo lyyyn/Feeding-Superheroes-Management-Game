@@ -125,7 +125,7 @@ class Customer {
             this.sayOrder();
             if (this.isOrderCompleted()) {
                 delayedAction(() => {
-                    // this.pay();
+                    this.pay();
                     this.leave(HAPPY);
                 }, CUST_DELAY_IN_MS)
                     .then(() => {
@@ -147,8 +147,15 @@ class Customer {
             return false;
         };
     }
-    eat() {
-
+    pay() {
+        let receipt = 0;
+        this.custOrder.forEach(food => {
+            receipt += food.foodPriceinSGD;
+            console.log(food.foodName + ': ' + food.foodPriceinSGD);
+        })
+        console.log('total: ' + receipt);
+        shop.earning += receipt;
+        updateDisplay();
     }
     leave(mood) {
         //leave the store
@@ -337,7 +344,7 @@ const getUniqueSuperheroesID = () => {
     return newSuperheroID;
 }
 
-const keepCustomerComeIn = () => {
+const generateInitialCustomer = () => {
     delayedAction(() => {
         fetchCustomer(getUniqueSuperheroesID());
     }, CUST_DELAY_IN_MS)
@@ -366,11 +373,8 @@ const keepCustomerComeIn = () => {
 const openStore = () => {
     console.log(`store is open for day ${shop.currDay}`);
     shop.isStoreOpen = true;
-    shop.earning += 100;
     //generate customer with random order till the timer run out
-    keepCustomerComeIn();
-
-
+    generateInitialCustomer();
 }
 
 const closeStore = () => {
