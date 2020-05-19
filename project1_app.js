@@ -1,3 +1,38 @@
+//variable declaration
+const ZERO = 0;
+const HAPPY = 'happy';
+const ANGRY = 'angry';
+const START_DAY = 'Start Day';
+const DAY_SECONDS = 20;
+const CUST_DELAY_IN_MS = 1000; //1 sec
+const NUM_OF_SLOT = 5;
+const NUM_OF_FOOD = 9;
+const NUM_OF_SUPERHEROES = 729;
+const NUM_OF_DAILY_CUST = 5;
+const LIST_OF_BROKEN_HEROES = [51, 54, 74, 101, 113, 117, 131, 133, 134, 143, 164, 184, 205, 244, 283, 288, 290, 291, 292, 362, 447, 453, 511, 512, 552, 553, 593, 603, 629, 662, 682, 694, 698, 715, 721, 725];
+const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into class and create instance
+const ORDER_NULL_PROBABILITY = 30;
+const DAY_MESSAGE = ['Ready for your first day?'];
+const ENTRY_GREETINGS = ['Hullo', 'Hi', 'Ooosh!', 'How do you do', 'Goodday', 'G\'day', 'Good afternoon'];
+const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
+const DAY_SUMMARY = ['', 'Summary of Day 1', 'Summary of Day 2', 'Summary of Day 3', 'Summary of Day 4', 'Summary of Day 5'];
+const FOOD_ARR = [ //plan to read from files in the future
+    { foodID: 0, foodName: 'Oolong Tea', foodIngredients: 'Tea', foodOrigin: 'China', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 6, foodPriceinSGD: 2, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/jDVRwQ0/drink-tea.png' },
+    { foodID: 1, foodName: 'Arabica Coffee', foodIngredients: 'Coffee', foodOrigin: 'Indonesia', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 15000, foodPriceinSGD: 2.5, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/5xy7jMz/drink-coffee.png' },
+    { foodID: 2, foodName: 'Kunlun Water', foodIngredients: 'Water', foodOrigin: 'China', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 5, foodPriceinSGD: 1.5, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/kQ9GXxS/drink-water.png' },
+    { foodID: 3, foodName: 'Yunnan Broccoli', foodIngredients: 'Broccoli', foodOrigin: 'China', foodType: 'Veggie', foodMethod: 'Steam', foodCostFrSupplier: 9, foodPriceinSGD: 4, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/7b33T88/food-steam-Broccoli.png' },
+    { foodID: 4, foodName: 'Egg Custard', foodIngredients: 'Egg', foodOrigin: 'China', foodType: 'Protein', foodMethod: 'Steam', foodCostFrSupplier: 15.6, foodPriceinSGD: 5.25, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/GcPm5wf/food-steam-Egg.png' },
+    { foodID: 5, foodName: 'Steam Tofu', foodIngredients: 'Tofu', foodOrigin: 'China', foodType: 'Protein', foodMethod: 'Steam', foodCostFrSupplier: 12.5, foodPriceinSGD: 4.5, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png' },
+    { foodID: 6, foodName: 'Hainan Chicken', foodIngredients: 'Chicken', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 18.25, foodPriceinSGD: 6, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png' },
+    { foodID: 7, foodName: 'Steam Fish', foodIngredients: 'Fish', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 20.3, foodPriceinSGD: 7, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/rssrvZL/food-steam-Fish.png' },
+    { foodID: 8, foodName: 'Thai Rice', foodIngredients: 'Rice', foodOrigin: 'Thailand', foodType: 'Carbo', foodMethod: 'Steam', foodCostFrSupplier: 40, foodPriceinSGD: 3, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/TvddwdV/food-Rice.png' }
+]
+
+//DOM variables  
+const $modal = $('#modal');
+const $modalContent = $('#modal-content');
+const $messageButton = $('#modal-close');
+
 //utility functions
 const getRandom = (arr) => {
     return arr[Math.floor(Math.random() * arr.length)];
@@ -14,6 +49,12 @@ const generateRandomFoodItem = (percentage, arrPossibleFood) => { //probability 
 //classes
 class Shop {
     constructor() {
+        this.currDay = ZERO;
+        this.isStoreOpen = false;
+        this.level = 1;
+        this.earning = ZERO;
+        this.happyCust = ZERO;
+        this.currCost = ZERO;
         this.todayCust = [];
         this.todayFood = [];
         this.todayUniqueCustID = [];
@@ -84,6 +125,7 @@ class Customer {
             this.sayOrder();
             if (this.isOrderCompleted()) {
                 delayedAction(() => {
+                    // this.pay();
                     this.leave();
                 }, CUST_DELAY_IN_MS)
                     .then(() => {
@@ -143,15 +185,6 @@ class FoodOrigin {
     }
 }
 
-class Bento { //4 ingredients
-    constructor(firstBox, secondBox, thirdBox, fourthBox) {
-        this.firstBox = firstBox;
-        this.secondBox = secondBox;
-        this.thirdBox = thirdBox;
-        this.fourthBox = fourthBox;
-    }
-}
-
 class DailySummary {
     constructor() {
         this.day = day;
@@ -165,48 +198,6 @@ const singapore = new FoodOrigin('Singapore', 'SGD', 1);
 const china = new FoodOrigin('China', 'CNY', 4.5);
 const thailand = new FoodOrigin('Thailand', 'THB', 20.808);
 const indonesia = new FoodOrigin('Indonesia', 'IDR', 9413.1);
-
-//variable declaration
-const ZERO = 0;
-const START_DAY = 'Start Day';
-const DAY_SECONDS = 20;
-const CUST_DELAY_IN_MS = 1000; //1 sec
-const NUM_OF_SLOT = 5;
-const NUM_OF_FOOD = 9;
-const NUM_OF_SUPERHEROES = 729;
-const NUM_OF_DAILY_CUST = 5;
-const LIST_OF_BROKEN_HEROES = [51, 54, 74, 101, 113, 117, 131, 133, 134, 143, 164, 184, 205, 244, 283, 288, 290, 291, 292, 362, 447, 453, 511, 512, 552, 553, 593, 603, 629, 662, 682, 694, 698, 715, 721, 725];
-const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into class and create instance
-const ORDER_NULL_PROBABILITY = 30;
-const DAY_MESSAGE = ['Ready for your first day?'];
-const ENTRY_GREETINGS = ['Hullo', 'Hi', 'Ooosh!', 'How do you do', 'Goodday', 'G\'day', 'Good afternoon'];
-const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
-const DAY_SUMMARY = ['', 'Summary of Day 1', 'Summary of Day 2', 'Summary of Day 3', 'Summary of Day 4', 'Summary of Day 5'];
-const FOOD_ARR = [ //plan to read from files in the future
-    { foodID: 0, foodName: 'Oolong Tea', foodIngredients: 'Tea', foodOrigin: 'China', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 6, foodPriceinSGD: 2, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/jDVRwQ0/drink-tea.png' },
-    { foodID: 1, foodName: 'Arabica Coffee', foodIngredients: 'Coffee', foodOrigin: 'Indonesia', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 15000, foodPriceinSGD: 2.5, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/5xy7jMz/drink-coffee.png' },
-    { foodID: 2, foodName: 'Kunlun Water', foodIngredients: 'Water', foodOrigin: 'China', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 5, foodPriceinSGD: 1.5, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/kQ9GXxS/drink-water.png' },
-    { foodID: 3, foodName: 'Yunnan Broccoli', foodIngredients: 'Broccoli', foodOrigin: 'China', foodType: 'Veggie', foodMethod: 'Steam', foodCostFrSupplier: 9, foodPriceinSGD: 4, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/7b33T88/food-steam-Broccoli.png' },
-    { foodID: 4, foodName: 'Egg Custard', foodIngredients: 'Egg', foodOrigin: 'China', foodType: 'Protein', foodMethod: 'Steam', foodCostFrSupplier: 15.6, foodPriceinSGD: 5.25, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/GcPm5wf/food-steam-Egg.png' },
-    { foodID: 5, foodName: 'Steam Tofu', foodIngredients: 'Tofu', foodOrigin: 'China', foodType: 'Protein', foodMethod: 'Steam', foodCostFrSupplier: 12.5, foodPriceinSGD: 4.5, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png' },
-    { foodID: 6, foodName: 'Hainan Chicken', foodIngredients: 'Chicken', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 18.25, foodPriceinSGD: 6, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png' },
-    { foodID: 7, foodName: 'Steam Fish', foodIngredients: 'Fish', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 20.3, foodPriceinSGD: 7, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/rssrvZL/food-steam-Fish.png' },
-    { foodID: 8, foodName: 'Thai Rice', foodIngredients: 'Rice', foodOrigin: 'Thailand', foodType: 'Carbo', foodMethod: 'Steam', foodCostFrSupplier: 40, foodPriceinSGD: 3, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/TvddwdV/food-Rice.png' }
-]
-
-
-
-let currDay = ZERO;
-let isStoreOpen = false;
-let level = 1;
-let earning = ZERO;
-let happyCust = ZERO;
-let currCost = ZERO;
-
-//DOM variables  
-const $modal = $('#modal');
-const $modalContent = $('#modal-content');
-const $messageButton = $('#modal-close');
 
 //various functions
 const randomizeCustOrder = () => { //array of 4 food item from todayFood
@@ -266,15 +257,15 @@ const displayFood = () => {
 }
 
 const prepareFood = () => {
-    console.log(`preparing food for day ${currDay}`);
+    console.log(`preparing food for day ${shop.currDay}`);
     buildTodayFOOD_ARR(NUM_OF_FOOD);
     displayFood();
 }
 
 const resetVars = () => {
-    earning = ZERO;
-    happyCust = ZERO;
-    currCost = [];
+    shop.earning = ZERO;
+    shop.happyCust = ZERO;
+    shop.currCost = [];
     shop.todayFood.splice(ZERO, shop.todayFood.length); //empty array without reassigning
     shop.todayCust.splice(ZERO, shop.todayCust.length);
     shop.todayUniqueCustID.splice(ZERO, shop.todayUniqueCustID.length);
@@ -289,9 +280,9 @@ const cleaningSlots = () => {
 }
 
 const updateDisplay = () => {
-    $('#day').text(`Day: ${currDay}`);
-    $('#money').text(`SGD ${earning}`);
-    $('#happy').text(`${String.fromCodePoint(128523)} ${happyCust}`); //&#128523; smiley deliciously 😋
+    $('#day').text(`Day: ${shop.currDay}`);
+    $('#money').text(`SGD ${shop.earning}`);
+    $('#happy').text(`${String.fromCodePoint(128523)} ${shop.happyCust}`); //&#128523; smiley deliciously 😋
     //&#128545; angry face 😡
 }
 
@@ -365,9 +356,9 @@ const keepCustomerComeIn = () => {
 }
 
 const openStore = () => {
-    console.log(`store is open for day ${currDay}`);
-    isStoreOpen = true;
-    earning += 100;
+    console.log(`store is open for day ${shop.currDay}`);
+    shop.isStoreOpen = true;
+    shop.earning += 100;
     happyCust += 5;
     //generate customer with random order till the timer run out
     keepCustomerComeIn();
@@ -376,8 +367,8 @@ const openStore = () => {
 }
 
 const closeStore = () => {
-    console.log(`closing store for day ${currDay}`);
-    isStoreOpen = false;
+    console.log(`closing store for day ${shop.currDay}`);
+    shop.isStoreOpen = false;
     cleaningSlots();
 }
 
@@ -392,7 +383,7 @@ const progress = (timeleft, timetotal, $element) => {
     } else {
         setTimeout(() => {
             closeStore();//calculate the summary
-            setMessage(DAY_SUMMARY[currDay], START_DAY);
+            setMessage(DAY_SUMMARY[shop.currDay], START_DAY);
             setTimeout(displayMessage, 1000);
         }, 1000);
     }
@@ -431,15 +422,15 @@ $messageButton.on('click', (Event) => {
 
     //check if start new day
     if ($messageButton.text() === START_DAY) {
-        currDay++;
-        startDay(currDay, DAY_SECONDS);
+        shop.currDay++;
+        startDay(shop.currDay, DAY_SECONDS);
     }
 });
 
 //main
 $(() => {
     //Day Cycle
-    setMessage(DAY_MESSAGE[currDay], START_DAY);
+    setMessage(DAY_MESSAGE[shop.currDay], START_DAY);
     setTimeout(displayMessage, 1000);
 
 
