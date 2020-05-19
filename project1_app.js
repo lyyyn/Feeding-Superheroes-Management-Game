@@ -182,7 +182,7 @@ const resetVars = () => {
 
 const cleaningSlots = () => {
     //remov
-    $('.empty').empty();
+    $('.customer').empty();
     $('.customer').addClass('empty');
     
 }
@@ -277,6 +277,7 @@ const openStore = () => {
 const closeStore = () => {
     console.log(`closing store for day ${currDay}`);
     isStoreOpen = false;
+    cleaningSlots();
 }
 
 
