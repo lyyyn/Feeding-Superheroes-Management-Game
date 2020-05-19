@@ -95,6 +95,10 @@ img {
     width: 50%;
 }
 
+.strikethrough {
+    text-decoration: line-through;
+}
+
 /* Areas sizes */
 
 container {
@@ -123,6 +127,7 @@ money {
     height: 150px;
     background-size: cover;
     background-image: '';
+    border: 2px solid rgb(255,255,255,0);
 }
 
 .customer span {
