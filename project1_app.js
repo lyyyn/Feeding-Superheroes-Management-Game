@@ -94,6 +94,7 @@ const thailand = new FoodOrigin('Thailand', 'THB', 20.808);
 const indonesia = new FoodOrigin('Indonesia', 'IDR', 9413.1);
 
 //variable declaration
+const ZERO = 0;
 const START_DAY = 'Start Day';
 const DAY_SECONDS = 20;
 const CUST_DELAY_IN_MS = 1000; //1 sec
@@ -106,18 +107,7 @@ const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into cla
 const ORDER_NULL_PROBABILITY = 30;
 const DAY_MESSAGE = ['Ready for your first day?']
 const DAY_SUMMARY = ['', 'Summary of Day 1', 'Summary of Day 2', 'Summary of Day 3', 'Summary of Day 4', 'Summary of Day 5'];
-// const CUSTOMER_LIST = {
-//     level: 1,
-//     customer_names: []
-// }
-
-let currDay = 0;
-let isStoreOpen = false;
-let level = 1;
-let earning = 0;
-let happyCust = 0;
-let currCost = 0;
-let foodArr = [
+const FOOD_ARR = [ //plan to read from files in the future
     ['Oolong Tea', 'Tea', 'China', 'Drink', 'Boil', 6, 2, 2, 0, 'https://i.ibb.co/jDVRwQ0/drink-tea.png'],
     ['Arabica Coffee', 'Coffee', 'Indonesia', 'Drink', 'Boil', 15000, 2.5, 2, 0, 'https://i.ibb.co/5xy7jMz/drink-coffee.png'],
     ['Kunlun Spring Water', 'Water', 'China', 'Drink', 'Boil', 5, 1.5, 1, 0, 'https://i.ibb.co/kQ9GXxS/drink-water.png'],
@@ -128,8 +118,16 @@ let foodArr = [
     ['Hongkong Grouper', 'Fish', 'China', 'Meat', 'Steam', 20.3, 7, 2, 0, 'https://i.ibb.co/rssrvZL/food-steam-Fish.png'],
     ['Hom Mali Rice', 'Rice', 'Thailand', 'Carbo', 'Steam', 40, 3, 1, 0, 'https://i.ibb.co/TvddwdV/food-Rice.png']
 ]
+
 const todayFood = [];
 const todayCust = [];
+
+let currDay = ZERO;
+let isStoreOpen = false;
+let level = 1;
+let earning = ZERO;
+let happyCust = ZERO;
+let currCost = ZERO;
 
 //DOM variables  
 const $modal = $('#modal');
@@ -149,9 +147,9 @@ const randomizeCustOrder = () => { //array of 4 food item from todayFood
     return cOrder;
 };
 
-const buildTodayFoodArr = (num) => {
+const buildTodayFOOD_ARR = (num) => {
     let food = null;
-    foodArr.forEach(element => {
+    FOOD_ARR.forEach(element => {
         food = new Food(element);
         todayFood.push(food);
     });
@@ -168,16 +166,16 @@ const displayFood = () => {
 
 const prepareFood = () => {
     console.log(`preparing food for day ${currDay}`);
-    buildTodayFoodArr(NUM_OF_FOOD);
+    buildTodayFOOD_ARR(NUM_OF_FOOD);
     displayFood();
 }
 
 const resetVars = () => {
-    earning = 0;
-    happyCust = 0;
+    earning = ZERO;
+    happyCust = ZERO;
     currCost = [];
-    todayFood.splice(0, todayFood.length); //empty array without reassigning
-    todayCust.splice(0, todayCust.length);
+    todayFood.splice(ZERO, todayFood.length); //empty array without reassigning
+    todayCust.splice(ZERO, todayCust.length);
 }
 
 const cleaningSlots = () => {
