@@ -65,7 +65,7 @@ class Shop {
     getFoodByID(id) {
         return this.todayFood.find(food => food.foodID === id);
     }
-    prepare () {
+    prepare() {
         resetVars();
         prepareFood();
         updateDisplay();
@@ -76,7 +76,7 @@ class Shop {
         //generate customer with random order till the timer run out
         generateInitialCustomer();
     }
-    close () {
+    close() {
         console.log(`closing store for day ${this.currDay}`);
         shop.isStoreOpen = false;
         cleaningSlots();
@@ -120,7 +120,7 @@ class Customer {
         saying += getRandom(ORDER_GREETINGS) + '</br>';
         this.custOrder.forEach((orderedFood, index) => {
             if (this.custFulfilled.indexOf(orderedFood) >= 0) {
-                saying += `<span class="strikethrough">${orderedFood.foodName}</span></br>`;
+                saying += `<del>${orderedFood.foodName}</del><br/>`;
             } else if (orderedFood != null) {
                 saying += `${orderedFood.foodName} </br>`;
             };
@@ -129,8 +129,10 @@ class Customer {
         this.custOrderSaying = saying;
 
         //display the order bubble
-        $('#' + this.custSlot)
-            .html(`<span>${this.custOrderSaying}</span>`);
+        if (shop.isStoreOpen) {
+            $('#' + this.custSlot)
+                .html(`<span>${this.custOrderSaying}</span>`);
+        }
     }
     checkOrder(foodID) {
         const servedFood = shop.getFoodByID(parseInt(foodID));
@@ -235,8 +237,8 @@ const randomizeCustOrder = () => { //array of 4 food item from todayFood
             cOrder.push(randomFoodItem);
         }
     });
-    //to ensure cust min order 1 item
-    if (cOrder.length === 0) { cOrder.push(generateRandomFoodItem(ZERO, element)) };
+    //force customer to order at least 1 drink
+    if (cOrder.length === 0) { cOrder.push(generateRandomFoodItem(ZERO, ORDER_COMPOSITION[0])) };
     return cOrder;
 };
 

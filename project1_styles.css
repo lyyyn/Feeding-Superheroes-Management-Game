@@ -1,6 +1,6 @@
 /* Import some fonts */
 
-@import url('https://fonts.googleapis.com/css?family=Dosis|Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -17,13 +17,17 @@ html {
 body {
     color: rgb(50, 50, 50);
     /*set default font color for the whole site */
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: 'Bangers', cursive;
     /*set default font family for the whole site */
 }
 
 img {
     height: 75px;
     width: 75px;
+}
+
+del {
+    border: none;
 }
 
 /* flex class */
@@ -95,10 +99,6 @@ img {
     width: 50%;
 }
 
-.strikethrough {
-    text-decoration: line-through;
-}
-
 /* Areas sizes */
 
 container {
@@ -108,14 +108,24 @@ container {
 
 topbar {
     height: 40px;
+    background-color: black;
+    color: white;
 }
 
 day, happy, angry {
-    width: 75px;
+    width: 60px;
 }
 
 money {
     width: 150px;
+}
+
+main {
+    padding: 1em;
+    background-size: 8px 8px, 8px 8px, 8px 8px, 8px 8px, 8px 8px, 100% 100%;
+    border-top: 3px solid #444;
+    margin-bottom: -4px;
+    background-image: radial-gradient(ellipse farthest-corner, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 35%, #ffffff 30%, #ffffff 40%, rgba(0, 0, 0, 0) 90%), radial-gradient(ellipse farthest-corner at 0px 0px, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 20%, #ffffff 15%, #ffffff 20%, rgba(0, 0, 0, 0) 50%), radial-gradient(ellipse farthest-corner at 8px 8px, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 20%, #ffffff 15%, #ffffff 20%, rgba(0, 0, 0, 0) 50%), radial-gradient(ellipse farthest-corner at 0px 8px, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 20%, #ffffff 15%, #ffffff 20%, rgba(0, 0, 0, 0) 40%), radial-gradient(ellipse farthest-corner at 8px 0px, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 20%, #ffffff 15%, #ffffff 20%, rgba(0, 0, 0, 0) 50%), linear-gradient(40deg, #acacac 0, #dadada 30%, #f2f2f2 50%, #dadada 70%, #acacac 100%);
 }
 
 .customer {
@@ -127,13 +137,68 @@ money {
     height: 150px;
     background-size: cover;
     background-image: '';
-    border: 2px solid rgb(255,255,255,0);
+    border: 2px solid rgb(255, 255, 255, 0);
 }
 
-.customer span {
+/* .customer span {
     background-color: rgb(255, 255, 255, 0.7);
-    font-size: 0.75rem;
+    font-family: 'Comic Sans', cursive;
+    font-size: 0.65rem;
     color: black;
+    border: solid 2px #000;
+    margin: 0;
+    padding: 3px 10px;
+    bottom: -2px;
+    position: relative;
+    left: -6px;
+    transform: skew(-10deg);
+} */
+
+.customer span {
+    font-family: 'Comic Sans', cursive;
+    font-size: 0.65rem;
+    /* font-weight: bold; */
+    background-color: rgb(0, 0, 0, 0.7);
+    color: white;
+    border: solid 2px #000;
+    border-radius: 12px;
+    display: inline-block;
+    margin: .2em;
+    padding: .3em 0.5em;
+    position: relative;
+}
+
+.customer span:before {
+    border: solid 12px transparent;
+    border-left: solid 12px #000;
+    border-top: solid 12px #000;
+    bottom: -24px;
+    content: "";
+    height: 0;
+    left: 24px;
+    position: absolute;
+    transform: skew(-15deg);
+    width: 0;
+}
+
+.customer span:after {
+    border: solid 10px transparent;
+    border-left: solid 10px rgb(0, 0, 0, 0.7);
+    border-top: solid 10px rgb(0, 0, 0, 0.7);
+    bottom: -19px;
+    content: "";
+    height: 0;
+    left: 27px;
+    position: absolute;
+    transform: skew(-15deg);
+    width: 0;
+}
+
+counter {
+    background-color: #6c2505;
+    background-size: 40px 160px, 60px 29px, 27px 27px;
+    /* background-image: linear-gradient(94deg, rgba(91, 33, 5, 0.1) 0%, rgba(83, 29, 4, 0.32) 23%, rgba(74, 24, 3, 0.41) 47%, rgba(80, 27, 5, 0.44) 70%, rgba(81, 27, 5, 0.59) 74%, rgba(93, 33, 4, 0.2) 83%, rgba(115, 43, 3, 0.5) 100%), linear-gradient(90deg, #541c09 50%, transparent 50%), linear-gradient(90deg, #7a2e00 50%, #632401 50%); */
+    background-image: linear-gradient(60deg, rgba(91, 33, 5, 0.1) 0%, rgba(83, 29, 4, 0.32) 23%, rgba(74, 24, 3, 0.41) 47%, rgba(80, 27, 5, 0.44) 70%, rgba(81, 27, 5, 0.59) 74%, rgba(93, 33, 4, 0.2) 83%, rgba(115, 43, 3, 0.5) 100%), linear-gradient(45deg, #541c09 50%, transparent 50%), linear-gradient(55deg, #7a2e00 50%, #632401 50%);
 }
 
 .counter {
@@ -141,7 +206,14 @@ money {
     height: 50px;
 }
 
-tray, serving, cashier {
+tray {
+    background-color: #000;
+    width: 190px;
+    height: 190px;
+}
+
+serving, cashier {
+    background-color: #000;
     width: 190px;
     height: 190px;
 }
@@ -157,7 +229,7 @@ food img {
 }
 
 .over {
-    border: 2px solid red;
+    border: 2px solid rgb(240, 58, 23);
 }
 
 bento {
@@ -170,7 +242,7 @@ box {
     height: 75px;
 }
 
-box img{
+box img {
     width: 100%;
     height: 100%;
 }
@@ -221,12 +293,12 @@ action {
 
 .modal-buttons {
     padding: 14px 18px;
-    background-color: #677996;
+    background-color: rgb(240, 58, 23);
     border: none;
     outline: none;
     border-radius: 3px;
     color: white;
-    font-family: 'Arial';
+    font-family: 'Bangers', cursive;
     cursor: pointer;
 }
 
@@ -244,7 +316,11 @@ action {
     line-height: 18px;
     /* same as #progressBar height if we want text middle aligned */
     width: 0;
-    background-color: #CBEA00;
+    /* background-color: tomato; */
+    /* background-image: linear-gradient(to bottom right, red, grey); */
+    background: linear-gradient(transparent 50%, transparent 50%), radial-gradient(rgb(240, 58, 23) 4px, transparent 4px), radial-gradient(rgb(240, 58, 23) 4px, rgb(255, 200, 61) 4px), transparent;
+    background-size: 100%, 18px 18px, 18px 18px, 100%;
+    background-position: 0 0, -1.5px 4.5px, 7.5px 13.5px, 0 0;
     box-sizing: border-box;
 }
 
