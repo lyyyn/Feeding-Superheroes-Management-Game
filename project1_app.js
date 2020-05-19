@@ -83,7 +83,14 @@ class Customer {
             console.log('custFulfilled: ', this.custFulfilled);
             this.sayOrder();
             if (this.isOrderCompleted()) {
-                this.leave();
+                delayedAction(() => {
+                    this.leave();
+                }, CUST_DELAY_IN_MS)
+                    .then(() => {
+                        return delayedAction(() => {
+                            fetchCustomer(getUniqueSuperheroesID());
+                        }, CUST_DELAY_IN_MS)
+                    });
             };
         } else {
             console.log('complain, served wrong food');
@@ -102,7 +109,11 @@ class Customer {
     leave() {
         //leave the store
         console.log(this.custName + ' leave store');
-
+        $('#' + this.custSlot)
+            .empty()
+            .css('background-image', '')
+            .attr('custid', '')
+            .addClass('empty');
     }
 
 
@@ -351,7 +362,6 @@ const keepCustomerComeIn = () => {
                 fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
-
 }
 
 const openStore = () => {
