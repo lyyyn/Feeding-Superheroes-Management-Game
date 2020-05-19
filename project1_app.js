@@ -11,55 +11,66 @@ const generateRandomFoodItem = (percentage, arr) => { //probability of returning
     if ((Math.floor(Math.random() * 101)) <= percentage) {
         return null;
     } else {
-        return getRandom(arr);
+        return todayFood[getRandom(arr)];
     };
+}
+
+const orderFormat = (arr) => {
+    let saying = '';
+    saying += getRandom(ORDER_GREETINGS) + '</br>';
+    arr.forEach((element, index) => {
+        if (element != null) { saying += element.foodName + '</br>' };
+    });
+    return saying;
 }
 
 //classes
 class Customer {
-    constructor(cName, cURL) {
+    constructor(cID, cName, cURL) {
+        this.custID = cID;
         this.custName = cName;
         this.custMoney = 100;
         this.custImage = cURL;
         this.custPatience = 5; //willing to wait for 5 secs
-        this.slot = 0;
-
-        // this.preferredIngredients = getFaveIngredients(4);
-        //arr of ingredients the ingredients array
-
+        this.custOrder = [];
+        // this.custSlot = 0;
     }
     enter() {
         //enter the store
         //pick empty slot
-        console.log($('.empty:eq(0)').text());
+        // console.log($('.empty:eq(0)').text()); /* debug */
         $('.empty:eq(0)')
-            .html(`<img src="${this.custImage}">`)
-            .removeClass('empty');
+            .css('background-image', `url("${this.custImage}")`)
     }
     leave() {
         //enter the store
     }
     order(cOrder) {
+        this.custOrder = cOrder;
         //display the order bubble
-        console.log(cOrder);
+        $('.empty:eq(0)')
+            .html(`<span>${orderFormat(cOrder)}</span>`)
+            .removeClass('empty');
     }
     greet() {
         //say something
     }
+
 }
 
 class Food {
     constructor(fdArr) {
-        this.foodName = fdArr[0];
-        this.foodIngredients = fdArr[1];
-        this.foodOrigin = fdArr[2];
-        this.foodType = fdArr[3];
-        this.foodMethod = fdArr[4];
-        this.foodCostFrSupplier = fdArr[5];
-        this.foodPriceinSGD = fdArr[6];
-        this.foodRating = fdArr[7];
-        this.foodQty = fdArr[8];
-        this.foodImage = fdArr[9];
+        this.foodID = fdArr[0];
+        this.foodName = fdArr[1];
+        this.foodIngredients = fdArr[2];
+        this.foodOrigin = fdArr[3];
+        this.foodType = fdArr[4];
+        this.foodMethod = fdArr[5];
+        this.foodCostFrSupplier = fdArr[6];
+        this.foodPriceinSGD = fdArr[7];
+        this.foodRating = fdArr[8];
+        this.foodQty = fdArr[9];
+        this.foodImage = fdArr[10];
     }
 }
 
@@ -105,22 +116,25 @@ const NUM_OF_DAILY_CUST = 5;
 const LIST_OF_BROKEN_HEROES = [51, 54, 74, 101, 113, 117, 131, 133, 134, 143, 164, 184, 205, 244, 283, 288, 290, 291, 292, 362, 447, 453, 511, 512, 552, 553, 593, 603, 629, 662, 682, 694, 698, 715, 721, 725];
 const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into class and create instance
 const ORDER_NULL_PROBABILITY = 30;
-const DAY_MESSAGE = ['Ready for your first day?']
+const DAY_MESSAGE = ['Ready for your first day?'];
+const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
 const DAY_SUMMARY = ['', 'Summary of Day 1', 'Summary of Day 2', 'Summary of Day 3', 'Summary of Day 4', 'Summary of Day 5'];
 const FOOD_ARR = [ //plan to read from files in the future
-    ['Oolong Tea', 'Tea', 'China', 'Drink', 'Boil', 6, 2, 2, 0, 'https://i.ibb.co/jDVRwQ0/drink-tea.png'],
-    ['Arabica Coffee', 'Coffee', 'Indonesia', 'Drink', 'Boil', 15000, 2.5, 2, 0, 'https://i.ibb.co/5xy7jMz/drink-coffee.png'],
-    ['Kunlun Spring Water', 'Water', 'China', 'Drink', 'Boil', 5, 1.5, 1, 0, 'https://i.ibb.co/kQ9GXxS/drink-water.png'],
-    ['Yunnan Specialty Broccoli', 'Broccoli', 'China', 'Veggie', 'Steam', 9, 4, 1, 0, 'https://i.ibb.co/7b33T88/food-steam-Broccoli.png'],
-    ['Macao Egg Custard', 'Egg', 'China', 'Protein', 'Steam', 15.6, 5.25, 1, 0, 'https://i.ibb.co/GcPm5wf/food-steam-Egg.png'],
-    ['Steam Tofu', 'Tofu', 'China', 'Protein', 'Steam', 12.5, 4.5, 1, 0, 'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png'],
-    ['Hainan Chicken', 'Chicken', 'China', 'Meat', 'Steam', 18.25, 6, 1, 0, 'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png'],
-    ['Hongkong Grouper', 'Fish', 'China', 'Meat', 'Steam', 20.3, 7, 2, 0, 'https://i.ibb.co/rssrvZL/food-steam-Fish.png'],
-    ['Hom Mali Rice', 'Rice', 'Thailand', 'Carbo', 'Steam', 40, 3, 1, 0, 'https://i.ibb.co/TvddwdV/food-Rice.png']
+    [0, 'Oolong Tea', 'Tea', 'China', 'Drink', 'Boil', 6, 2, 2, 0, 'https://i.ibb.co/jDVRwQ0/drink-tea.png'],
+    [1, 'Arabica Coffee', 'Coffee', 'Indonesia', 'Drink', 'Boil', 15000, 2.5, 2, 0, 'https://i.ibb.co/5xy7jMz/drink-coffee.png'],
+    [2, 'Kunlun Water', 'Water', 'China', 'Drink', 'Boil', 5, 1.5, 1, 0, 'https://i.ibb.co/kQ9GXxS/drink-water.png'],
+    [3, 'Yunnan Broccoli', 'Broccoli', 'China', 'Veggie', 'Steam', 9, 4, 1, 0, 'https://i.ibb.co/7b33T88/food-steam-Broccoli.png'],
+    [4, 'Egg-Custard', 'Egg', 'China', 'Protein', 'Steam', 15.6, 5.25, 1, 0, 'https://i.ibb.co/GcPm5wf/food-steam-Egg.png'],
+    [5, 'Steam Tofu', 'Tofu', 'China', 'Protein', 'Steam', 12.5, 4.5, 1, 0, 'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png'],
+    [6, 'Hainan Chicken', 'Chicken', 'China', 'Meat', 'Steam', 18.25, 6, 1, 0, 'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png'],
+    [7, 'Steam Fish', 'Fish', 'China', 'Meat', 'Steam', 20.3, 7, 2, 0, 'https://i.ibb.co/rssrvZL/food-steam-Fish.png'],
+    [8, 'Hom Mali Rice', 'Rice', 'Thailand', 'Carbo', 'Steam', 40, 3, 1, 0, 'https://i.ibb.co/TvddwdV/food-Rice.png']
 ]
 
 const todayFood = [];
+const todayUniqueCustID = [];
 const todayCust = [];
+
 
 let currDay = ZERO;
 let isStoreOpen = false;
@@ -152,8 +166,9 @@ const buildTodayFOOD_ARR = (num) => {
     FOOD_ARR.forEach(element => {
         food = new Food(element);
         todayFood.push(food);
+        // console.log(food);
     });
-    console.log(todayFood);
+    // console.log(todayFood); /* debug */
 }
 
 const displayFood = () => {
@@ -176,13 +191,15 @@ const resetVars = () => {
     currCost = [];
     todayFood.splice(ZERO, todayFood.length); //empty array without reassigning
     todayCust.splice(ZERO, todayCust.length);
+    todayUniqueCustID.splice(ZERO, todayUniqueCustID.length);
 }
 
 const cleaningSlots = () => {
     //remov
+    $('.customer').css('background-image', '');
     $('.customer').empty();
     $('.customer').addClass('empty');
-    
+
 }
 
 const updateDisplay = () => {
@@ -190,20 +207,6 @@ const updateDisplay = () => {
     $('#money').text(`SGD ${earning}`);
     $('#happy').text(`${String.fromCodePoint(128523)} ${happyCust}`); //&#128523; smiley deliciously 😋
     //&#128545; angry face 😡
-}
-
-const getUniqueSuperheroes = (num) => {
-    let i = 1;
-    let newSuperheroID = 0;
-    let uniqueID = [];
-    while (i <= num) {
-        newSuperheroID = generateRandomSuperheroID();
-        if ((!uniqueID.includes(newSuperheroID)) && (!LIST_OF_BROKEN_HEROES.includes(newSuperheroID))) {
-            uniqueID.push(newSuperheroID);
-            i++;
-        };
-    }
-    return uniqueID;
 }
 
 const delayedEntrance = (callback, timer) => {
@@ -215,12 +218,13 @@ const delayedEntrance = (callback, timer) => {
     });
 };
 
-const fetchCustomer = (uniqueID) => {
+const fetchCustomer = (unqID) => {
     const currCust = new Customer();
     $.ajax({
-        url: 'https://www.superheroapi.com/api.php/10158656646217518/' + getRandom(uniqueID)
+        url: 'https://www.superheroapi.com/api.php/10158656646217518/' + unqID
     }).then(
         (data) => {
+            currCust.custID = data.id;
             currCust.custName = data.name;
             currCust.custImage = data.image.url;
             currCust.enter();
@@ -232,30 +236,37 @@ const fetchCustomer = (uniqueID) => {
         });
 }
 
-const keepCustomerComeIn = (num) => {
-    const uniqueID = getUniqueSuperheroes(5);
+const getUniqueSuperheroesID = () => {
+    let newSuperheroID = generateRandomSuperheroID();
+    while ((todayUniqueCustID.includes(newSuperheroID)) || (LIST_OF_BROKEN_HEROES.includes(newSuperheroID))) {
+        newSuperheroID = generateRandomSuperheroID();
+    };
+    todayUniqueCustID.push(newSuperheroID);
+    return newSuperheroID;
+}
 
+const keepCustomerComeIn = () => {
     delayedEntrance(() => {
-        fetchCustomer(uniqueID);
+        fetchCustomer(getUniqueSuperheroesID());
     }, CUST_DELAY_IN_MS)
         .then(() => {
             return delayedEntrance(() => {
-                fetchCustomer(uniqueID);
+                fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
         .then(() => {
             return delayedEntrance(() => {
-                fetchCustomer(uniqueID);
+                fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
         .then(() => {
             return delayedEntrance(() => {
-                fetchCustomer(uniqueID);
+                fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
         .then(() => {
             return delayedEntrance(() => {
-                fetchCustomer(uniqueID);
+                fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
 
@@ -267,7 +278,7 @@ const openStore = () => {
     earning += 100;
     happyCust += 5;
     //generate customer with random order till the timer run out
-    keepCustomerComeIn(NUM_OF_DAILY_CUST);
+    keepCustomerComeIn();
 
 
 }
@@ -297,8 +308,8 @@ const progress = (timeleft, timetotal, $element) => {
 };
 
 const prepareStore = () => {
-    prepareFood();
     resetVars();
+    prepareFood();
     updateDisplay();
 }
 
