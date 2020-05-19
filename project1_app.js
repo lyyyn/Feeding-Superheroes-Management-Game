@@ -33,28 +33,35 @@ class Customer {
         this.custImage = cURL;
         this.custPatience = 5; //willing to wait for 5 secs
         this.custOrder = [];
-        // this.custSlot = 0;
+        this.custSlot = 0;
     }
     enter() {
         //enter the store
         //pick empty slot
         // console.log($('.empty:eq(0)').text()); /* debug */
-        $('.empty:eq(0)')
-            .css('background-image', `url("${this.custImage}")`)
+        this.custSlot = $('.empty:eq(0)').attr('id');
+        $('.empty:eq(0)').removeClass('empty');
+        $('#' + this.custSlot)
+            .css('background-image', `url("${this.custImage}")`);
     }
-    leave() {
-        //enter the store
+    greet() {
+        //say something
+        $('#' + this.custSlot)
+            .html(`<span>${getRandom(ENTRY_GREETINGS)}</span>`);
     }
     order(cOrder) {
         this.custOrder = cOrder;
         //display the order bubble
-        $('.empty:eq(0)')
-            .html(`<span>${orderFormat(cOrder)}</span>`)
-            .removeClass('empty');
+        $('#' + this.custSlot)
+            .html(`<span>${orderFormat(cOrder)}</span>`);
     }
-    greet() {
-        //say something
+    eat(){
+        
     }
+    leave() {
+        //enter the store
+    }
+    
 
 }
 
@@ -117,6 +124,7 @@ const LIST_OF_BROKEN_HEROES = [51, 54, 74, 101, 113, 117, 131, 133, 134, 143, 16
 const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into class and create instance
 const ORDER_NULL_PROBABILITY = 30;
 const DAY_MESSAGE = ['Ready for your first day?'];
+const ENTRY_GREETINGS = ['Hullo','Hi','Ooosh!','How do you do','Goodday','G\'day','Good afternoon'];
 const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
 const DAY_SUMMARY = ['', 'Summary of Day 1', 'Summary of Day 2', 'Summary of Day 3', 'Summary of Day 4', 'Summary of Day 5'];
 const FOOD_ARR = [ //plan to read from files in the future
@@ -209,7 +217,7 @@ const updateDisplay = () => {
     //&#128545; angry face 😡
 }
 
-const delayedEntrance = (callback, timer) => {
+const delayedAction = (callback, timer) => {
     return new Promise(resolve => {
         setTimeout(() => {
             callback();
@@ -224,12 +232,19 @@ const fetchCustomer = (unqID) => {
         url: 'https://www.superheroapi.com/api.php/10158656646217518/' + unqID
     }).then(
         (data) => {
+            todayCust.push(currCust);
             currCust.custID = data.id;
             currCust.custName = data.name;
             currCust.custImage = data.image.url;
             currCust.enter();
-            currCust.order(randomizeCustOrder());
-            todayCust.push(currCust);
+            delayedAction(() => {
+                currCust.greet();
+            }, CUST_DELAY_IN_MS)
+                .then(() => {
+                    return delayedAction(() => {
+                        currCust.order(randomizeCustOrder());
+                    }, CUST_DELAY_IN_MS)
+                })
         })
         .catch(error => {
             console.log('err: ', error);
@@ -246,26 +261,26 @@ const getUniqueSuperheroesID = () => {
 }
 
 const keepCustomerComeIn = () => {
-    delayedEntrance(() => {
+    delayedAction(() => {
         fetchCustomer(getUniqueSuperheroesID());
     }, CUST_DELAY_IN_MS)
         .then(() => {
-            return delayedEntrance(() => {
+            return delayedAction(() => {
                 fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
         .then(() => {
-            return delayedEntrance(() => {
+            return delayedAction(() => {
                 fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
         .then(() => {
-            return delayedEntrance(() => {
+            return delayedAction(() => {
                 fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
         .then(() => {
-            return delayedEntrance(() => {
+            return delayedAction(() => {
                 fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
