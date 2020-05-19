@@ -3,31 +3,45 @@ const getRandom = (arr) => {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
+const generateRandomSuperheroID = () => {
+    return Math.ceil(Math.random() * NUM_OF_SUPERHEROES);
+}
+
+const generateRandomFoodItem = (percentage, arr) => { //probability of returning null or any of the array
+    if ((Math.floor(Math.random() * 101)) <= percentage) {
+        return null;
+    } else {
+        return getRandom(arr);
+    };
+}
+
 //classes
 class Customer {
-    constructor(name) {
-        this.name = name;
-        //get the stats using ajax using the name
+    constructor(cName, cURL) {
+        this.custName = cName;
+        this.custMoney = 100;
+        this.custImage = cURL;
+        this.custPatience = 5; //willing to wait for 5 secs
+        this.slot = 0;
 
-        //do AJAX outside
-        //https://www.superheroapi.com/api.php/10158656646217518/search/Agent%20Bob
-        this.money = calculateMoney();
-        // money = sum of ( intelligence : "10"
-        // strength : "8"
-        // speed : "13"
-        // durability : "5"
-        // power : "5"
-        // combat : "20")
-
-        this.preferredIngredients = getFaveIngredients(4);
+        // this.preferredIngredients = getFaveIngredients(4);
         //arr of ingredients the ingredients array
 
     }
     enter() {
         //enter the store
+        //pick empty slot
+        console.log($('.empty:eq(0)').text());
+        $('.empty:eq(0)')
+            .html(`<img src="${this.custImage}">`)
+            .removeClass('empty');
     }
     leave() {
         //enter the store
+    }
+    order(cOrder) {
+        //display the order bubble
+        console.log(cOrder);
     }
     greet() {
         //say something
@@ -48,7 +62,6 @@ class Food {
         this.foodImage = fdArr[9];
     }
 }
-
 
 class FoodOrigin {
     constructor(country, currency, rate) {
@@ -83,15 +96,23 @@ const indonesia = new FoodOrigin('Indonesia', 'IDR', 9413.1);
 //variable declaration
 const START_DAY = 'Start Day';
 const DAY_SECONDS = 20;
+const CUST_DELAY_IN_MS = 1000; //1 sec
+const NUM_OF_SLOT = 5;
 const NUM_OF_FOOD = 9;
+const NUM_OF_SUPERHEROES = 729;
+const NUM_OF_DAILY_CUST = 5;
+const LIST_OF_BROKEN_HEROES = [51, 54, 74, 101, 113, 117, 131, 133, 134, 143, 164, 184, 205, 244, 283, 288, 290, 291, 292, 362, 447, 453, 511, 512, 552, 553, 593, 603, 629, 662, 682, 694, 698, 715, 721, 725];
+const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into class and create instance
+const ORDER_NULL_PROBABILITY = 30;
 const DAY_MESSAGE = ['Ready for your first day?']
 const DAY_SUMMARY = ['', 'Summary of Day 1', 'Summary of Day 2', 'Summary of Day 3', 'Summary of Day 4', 'Summary of Day 5'];
-const CUSTOMER_LIST = {
-    level: 1,
-    customer_names: []
-}
+// const CUSTOMER_LIST = {
+//     level: 1,
+//     customer_names: []
+// }
 
 let currDay = 0;
+let isStoreOpen = false;
 let level = 1;
 let earning = 0;
 let happyCust = 0;
@@ -108,6 +129,7 @@ let foodArr = [
     ['Hom Mali Rice', 'Rice', 'Thailand', 'Carbo', 'Steam', 40, 3, 1, 0, 'https://i.ibb.co/TvddwdV/food-Rice.png']
 ]
 const todayFood = [];
+const todayCust = [];
 
 //DOM variables  
 const $modal = $('#modal');
@@ -115,6 +137,18 @@ const $modalContent = $('#modal-content');
 const $messageButton = $('#modal-close');
 
 //various functions
+const randomizeCustOrder = () => { //array of 4 food item from todayFood
+    const cOrder = [];
+    //1st random between null or 0-2 (drink) -> null = not ordering drink
+    //2nd random between null or 3 (veggie) -> null = not ordering veggie
+    //3rd random between null or 4-7 (protein/meat) -> null = not ordering protein/meat
+    //4th random between null or 8 (rice) -> null = not ordering rice
+    ORDER_COMPOSITION.forEach(element => {
+        cOrder.push(generateRandomFoodItem(ORDER_NULL_PROBABILITY, element));
+    });
+    return cOrder;
+};
+
 const buildTodayFoodArr = (num) => {
     let food = null;
     foodArr.forEach(element => {
@@ -128,7 +162,7 @@ const displayFood = () => {
     todayFood.forEach((element, index) => {
         //place in the tray
         $('.food:nth-child(' + (index + 1) + ')')
-        .html(`<img src="${element.foodImage}">`);
+            .html(`<img src="${element.foodImage}">`);
     });
 }
 
@@ -143,6 +177,14 @@ const resetVars = () => {
     happyCust = 0;
     currCost = [];
     todayFood.splice(0, todayFood.length); //empty array without reassigning
+    todayCust.splice(0, todayCust.length);
+}
+
+const cleaningSlots = () => {
+    //remov
+    $('.empty').empty();
+    $('.customer').addClass('empty');
+    
 }
 
 const updateDisplay = () => {
@@ -152,14 +194,89 @@ const updateDisplay = () => {
     //&#128545; angry face 😡
 }
 
+const getUniqueSuperheroes = (num) => {
+    let i = 1;
+    let newSuperheroID = 0;
+    let uniqueID = [];
+    while (i <= num) {
+        newSuperheroID = generateRandomSuperheroID();
+        if ((!uniqueID.includes(newSuperheroID)) && (!LIST_OF_BROKEN_HEROES.includes(newSuperheroID))) {
+            uniqueID.push(newSuperheroID);
+            i++;
+        };
+    }
+    return uniqueID;
+}
+
+const delayedEntrance = (callback, timer) => {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            callback();
+            resolve();
+        }, timer);
+    });
+};
+
+const fetchCustomer = (uniqueID) => {
+    const currCust = new Customer();
+    $.ajax({
+        url: 'https://www.superheroapi.com/api.php/10158656646217518/' + getRandom(uniqueID)
+    }).then(
+        (data) => {
+            currCust.custName = data.name;
+            currCust.custImage = data.image.url;
+            currCust.enter();
+            currCust.order(randomizeCustOrder());
+            todayCust.push(currCust);
+        })
+        .catch(error => {
+            console.log('err: ', error);
+        });
+}
+
+const keepCustomerComeIn = (num) => {
+    const uniqueID = getUniqueSuperheroes(5);
+
+    delayedEntrance(() => {
+        fetchCustomer(uniqueID);
+    }, CUST_DELAY_IN_MS)
+        .then(() => {
+            return delayedEntrance(() => {
+                fetchCustomer(uniqueID);
+            }, CUST_DELAY_IN_MS)
+        })
+        .then(() => {
+            return delayedEntrance(() => {
+                fetchCustomer(uniqueID);
+            }, CUST_DELAY_IN_MS)
+        })
+        .then(() => {
+            return delayedEntrance(() => {
+                fetchCustomer(uniqueID);
+            }, CUST_DELAY_IN_MS)
+        })
+        .then(() => {
+            return delayedEntrance(() => {
+                fetchCustomer(uniqueID);
+            }, CUST_DELAY_IN_MS)
+        })
+
+}
+
 const openStore = () => {
     console.log(`store is open for day ${currDay}`);
+    isStoreOpen = true;
     earning += 100;
     happyCust += 5;
+    //generate customer with random order till the timer run out
+    keepCustomerComeIn(NUM_OF_DAILY_CUST);
+
+
 }
 
 const closeStore = () => {
     console.log(`closing store for day ${currDay}`);
+    isStoreOpen = false;
 }
 
 

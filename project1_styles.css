@@ -109,11 +109,18 @@ money {
     width: 150px;
 }
 
-customer {
+.customer {
+    width: 100px;
     height: 150px;
 }
 
-counter {
+.customer img {
+    width: 100px;
+    object-fit: contain;
+}
+
+.counter {
+    width: 100px;
     height: 50px;
 }
 
