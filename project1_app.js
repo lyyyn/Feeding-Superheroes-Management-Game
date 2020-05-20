@@ -30,8 +30,9 @@ const FOOD_ARR = [ //plan to read from files in the future
 
 //DOM variables  
 const $modal = $('#modal');
+const $modalTitle = $('#modal-title');
 const $modalContent = $('#modal-content');
-const $messageButton = $('#modal-close');
+const $modalButton = $('#modal-close');
 
 //utility functions
 const getRandom = (arr) => {
@@ -108,8 +109,10 @@ class Customer {
     }
     greet() {
         //say something
-        $('#' + this.custSlot)
-            .html(`<span>${getRandom(ENTRY_GREETINGS)}</span>`);
+        if (shop.isStoreOpen) {
+            $('#' + this.custSlot)
+                .html(`<span>${getRandom(ENTRY_GREETINGS)}</span>`);
+        }
     }
     order(arr4OrderedFoods) {
         this.custOrder = arr4OrderedFoods;
@@ -409,17 +412,18 @@ const closeMessage = () => {
     $modal.css('display', 'none');
 }
 
-const setMessage = (newContent, buttonText = 'Next') => {
-    $modalContent.text(newContent);
-    $messageButton.text(buttonText);
+const setMessage = (newTitle, buttonText = 'Next', newContent = '') => {
+    $modalTitle.text(newTitle);
+    $modalContent.html(newContent);
+    $modalButton.text(buttonText);
 }
 
 //Event listener
-$messageButton.on('click', (Event) => {
+$modalButton.on('click', (Event) => {
     closeMessage();
 
     //check if start new day
-    if ($messageButton.text() === START_DAY) {
+    if ($modalButton.text() === START_DAY) {
         shop.currDay++;
         startDay(shop.currDay, DAY_SECONDS);
     }
@@ -428,7 +432,10 @@ $messageButton.on('click', (Event) => {
 //main
 $(() => {
     //Day Cycle
-    setMessage(DAY_MESSAGE[shop.currDay], START_DAY);
+    setMessage(DAY_MESSAGE[shop.currDay], START_DAY,`Superheroes will teleport into our store soon. <br/>
+    Just drag the food they order to the Superheroes image to serve. <br/>
+    They will pay you when they leave, uhm.. <br/>
+    provided that you completed the order before store close. <br/>`);
     setTimeout(displayMessage, 1000);
 
 
