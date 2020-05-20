@@ -19,15 +19,15 @@ const QUIZ_QUESTIONS = ['You look familiar. Are you', 'Hey! I think I know you',
 const ENTRY_GREETINGS = ['Hullo', 'Hi', 'Ooosh!', 'How do you do', 'Goodday', 'G\'day', 'Good afternoon'];
 const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
 const FOOD_ARR = [ //plan to read from files in the future
-    {foodID:0,foodName:'Oolong Tea',foodIngredients:'Tea',foodOrigin:'China',foodType:'Drink',foodMethod:'Boil',foodCostFrSupplier:12,foodPriceinSGD:9.25,foodRating:2,foodQty:10,foodImage:'https://i.ibb.co/jDVRwQ0/drink-tea.png'},
-    {foodID:1,foodName:'Arabica Coffee',foodIngredients:'Coffee',foodOrigin:'Indonesia',foodType:'Drink',foodMethod:'Boil',foodCostFrSupplier:30000,foodPriceinSGD:11.75,foodRating:2,foodQty:10,foodImage:'https://i.ibb.co/5xy7jMz/drink-coffee.png'},
-    {foodID:2,foodName:'Kunlun Water',foodIngredients:'Water',foodOrigin:'China',foodType:'Drink',foodMethod:'Boil',foodCostFrSupplier:10,foodPriceinSGD:6.5,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/kQ9GXxS/drink-water.png'},
-    {foodID:3,foodName:'Yunnan Broccoli',foodIngredients:'Broccoli',foodOrigin:'China',foodType:'Veggie',foodMethod:'Steam',foodCostFrSupplier:18,foodPriceinSGD:15.25,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/7b33T88/food-steam-Broccoli.png'},
-    {foodID:4,foodName:'Egg Custard',foodIngredients:'Egg',foodOrigin:'China',foodType:'Protein',foodMethod:'Steam',foodCostFrSupplier:31.2,foodPriceinSGD:19.5,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/GcPm5wf/food-steam-Egg.png'},
-    {foodID:5,foodName:'Steam Tofu',foodIngredients:'Tofu',foodOrigin:'China',foodType:'Protein',foodMethod:'Steam',foodCostFrSupplier:25,foodPriceinSGD:18.8,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png'},
-    {foodID:6,foodName:'Hainan Chicken',foodIngredients:'Chicken',foodOrigin:'China',foodType:'Meat',foodMethod:'Steam',foodCostFrSupplier:36.5,foodPriceinSGD:24,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png'},
-    {foodID:7,foodName:'Steam Fish',foodIngredients:'Fish',foodOrigin:'China',foodType:'Meat',foodMethod:'Steam',foodCostFrSupplier:40.6,foodPriceinSGD:28,foodRating:2,foodQty:10,foodImage:'https://i.ibb.co/rssrvZL/food-steam-Fish.png'},
-    {foodID:8,foodName:'Thai Rice',foodIngredients:'Rice',foodOrigin:'Thailand',foodType:'Carbo',foodMethod:'Steam',foodCostFrSupplier:80,foodPriceinSGD:12.4,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/TvddwdV/food-Rice.png'}
+    { foodID: 0, foodName: 'Oolong Tea', foodIngredients: 'Tea', foodOrigin: 'China', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 19.8, foodPriceinSGD: 9.25, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/jDVRwQ0/drink-tea.png' },
+    { foodID: 1, foodName: 'Arabica Coffee', foodIngredients: 'Coffee', foodOrigin: 'Indonesia', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 49500, foodPriceinSGD: 11.75, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/5xy7jMz/drink-coffee.png' },
+    { foodID: 2, foodName: 'Kunlun Water', foodIngredients: 'Water', foodOrigin: 'China', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 16.5, foodPriceinSGD: 6.5, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/kQ9GXxS/drink-water.png' },
+    { foodID: 3, foodName: 'Yunnan Broccoli', foodIngredients: 'Broccoli', foodOrigin: 'China', foodType: 'Veggie', foodMethod: 'Steam', foodCostFrSupplier: 29.7, foodPriceinSGD: 15.25, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/7b33T88/food-steam-Broccoli.png' },
+    { foodID: 4, foodName: 'Egg Custard', foodIngredients: 'Egg', foodOrigin: 'China', foodType: 'Protein', foodMethod: 'Steam', foodCostFrSupplier: 51.48, foodPriceinSGD: 19.5, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/GcPm5wf/food-steam-Egg.png' },
+    { foodID: 5, foodName: 'Steam Tofu', foodIngredients: 'Tofu', foodOrigin: 'China', foodType: 'Protein', foodMethod: 'Steam', foodCostFrSupplier: 41.25, foodPriceinSGD: 18.8, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png' },
+    { foodID: 6, foodName: 'Hainan Chicken', foodIngredients: 'Chicken', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 60.23, foodPriceinSGD: 24, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png' },
+    { foodID: 7, foodName: 'Steam Fish', foodIngredients: 'Fish', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 66.99, foodPriceinSGD: 28, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/rssrvZL/food-steam-Fish.png' },
+    { foodID: 8, foodName: 'Thai Rice', foodIngredients: 'Rice', foodOrigin: 'Thailand', foodType: 'Carbo', foodMethod: 'Steam', foodCostFrSupplier: 132, foodPriceinSGD: 12.4, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/TvddwdV/food-Rice.png' }
 ];
 const SUPPLIER_ARR = [
     { supplierCountry: 'Singapore', supplierCurrency: 'SGD', currencyRate: 1 },
@@ -105,15 +105,20 @@ class Shop {
         this.todayCost = ZERO;
         this.todayProfit = ZERO;
         this.todayHappyCust = ZERO;
+        this.todayTippedCust = ZERO;
         this.totalEarning = ZERO;
         this.totalTip = ZERO;
+        this.totalCost = ZERO;
         this.totalProfit = ZERO;
         this.totalHappyCust = ZERO;
+        this.totalTippedCust = ZERO;
         this.todayCust = [];
         this.todayFood = [];
         this.todaySupplier = [];
         this.todayUniqueCustID = [];
         this.todaySummary = ['']; //it's purposely initiated with a empty string to skip the 0 index of array
+        this.historicalServed = [''];
+        this.historicalTipped = [''];
         this.historicalEarning = [''];
         this.historicalTip = [''];
         this.historicalCost = [''];
@@ -142,6 +147,8 @@ class Shop {
         generateInitialCustomer();
     }
     recordDailySales() {
+        this.historicalServed.push(this.todayHappyCust);
+        this.historicalTipped.push(this.todayTippedCust);
         this.historicalEarning.push(this.todayEarning);
         this.historicalTip.push(this.todayTip);
         this.historicalCost.push(this.todayCost);
@@ -157,7 +164,8 @@ class Shop {
         salesSummary += `<tr><td>Today's Profit</td><td>${formatCurr(this.todayProfit)}</td></tr>`;
         salesSummary += `</table></td>`;
         salesSummary += `<td><table>`
-        salesSummary += `<tr><td>Happy Customer</td><td>${this.todayHappyCust}</td></tr>`;
+        salesSummary += `<tr><td>Served Customer</td><td>${this.todayHappyCust}</td></tr>`;
+        salesSummary += `<tr><td>Tipped Customer</td><td>${this.todayTippedCust}</td></tr>`;
         salesSummary += `<tr><td>Upset Customer</td><td>${ZERO}</td></tr>`;
         salesSummary += `</table></td></tr>`;
         salesSummary += `<tr><td><canvas id="pieChart"></canvas></td></tr>`;
@@ -211,6 +219,7 @@ class Customer {
         this.custImage = '';
         // this.custPatience = 5; //willing to wait for 5 secs
         this.isRecognized = false;
+        this.isTipped = false;
         this.custOrder = [];
         this.custFulfilled = [];
         this.custSlot = 0;
@@ -302,24 +311,27 @@ class Customer {
             console.log(food.foodName + ': ' + food.foodPriceinSGD);
         })
         $answer.html(`<p>${this.custName} paid ${formatCurr(receipt)}.</p>`);
-        
+
         //add tips if guessed correctly earlier
-        if (this.isRecognized === true){
-            $answer.append(`<p>${pronouns} tipped you ${formatCurr(this.custTip)}.</p>`);
-            $answer.append(`<p>Total received from ${this.custName}: ${formatCurr(receipt+this.custTip)}.</p>`);
-            shop.todayTip += this.custTip;
-            shop.totalTip += this.custTip;
-            shop.todayProfit += this.custTip;
-            shop.totalProfit += this.custTip;
-            console.log(this.custName + ' tipped ' + this.custTip);
+        if (this.isRecognized === true) {
+            let tip = this.custTip;
+            $answer.append(`<p>${pronouns} tipped you ${formatCurr(tip)}.</p>`);
+            $answer.append(`<p>Total received from ${this.custName}: ${formatCurr(receipt + tip)}.</p>`);
+            shop.todayTip += tip;
+            shop.totalTip += tip;
+            shop.todayProfit += tip;
+            shop.totalProfit += tip;
+            console.log(this.custName + ' tipped ' + tip);
+            this.isTipped = true;
         }
-        
+
         console.log('sales: ' + receipt);
         console.log('cost: ' + cost.toFixed(2));
         console.log('profit: ' + profit.toFixed(2));
         shop.todayEarning += receipt;
         shop.totalEarning += receipt;
         shop.todayCost += cost;
+        shop.totalCost += cost;
         shop.todayProfit += profit;
         shop.totalProfit += profit;
         updateDisplay();
@@ -329,6 +341,10 @@ class Customer {
         if (mood === HAPPY) {
             shop.todayHappyCust++;
             shop.totalHappyCust++;
+            if (this.isTipped === true) {
+                shop.todayTippedCust++;
+                shop.totalTippedCust++;
+            }
             updateDisplay();
         }
         console.log(this.custName + ' leave store');
@@ -443,6 +459,7 @@ const resetVars = () => {
     shop.todayEarning = ZERO;
     shop.todayTip = ZERO;
     shop.todayHappyCust = ZERO;
+    shop.todayTippedCust = ZERO;
     shop.todayCost = ZERO;
     shop.todayProfit = ZERO;
     shop.todayFood.splice(ZERO, shop.todayFood.length); //empty array without reassigning
@@ -481,25 +498,28 @@ const fetchCustomer = (unqID) => {
         url: 'https://www.superheroapi.com/api.php/10158656646217518/' + unqID
     }).then(
         (data) => {
-            shop.todayCust.push(currCust);
-            currCust.custID = data.id;
-            currCust.custName = data.name;
-            currCust.custGender = data.appearance.gender;
-            currCust.custTip = (data.powerstats.intelligence === 'null')? 3 : (parseInt(data.powerstats.intelligence)/4);
-            currCust.custImage = data.image.url;
-            currCust.enter();
-            delayedAction(() => {
-                if (shop.isStoreOpen) {
-                    currCust.greet();
-                }
-            }, CUST_DELAY_IN_MS)
-                .then(() => {
-                    return delayedAction(() => {
-                        if (shop.isStoreOpen) {
-                            currCust.order(randomizeCustOrder());
-                        }
-                    }, CUST_DELAY_IN_MS)
-                })
+            if (shop.isStoreOpen) {
+                shop.todayCust.push(currCust);
+                currCust.custID = data.id;
+                currCust.custName = data.name;
+                currCust.custGender = (data.appearance.gender === 'null') ? 'Male' : data.appearance.gender;
+                currCust.custTip = (data.powerstats.intelligence === 'null') ? 3 : (parseInt(data.powerstats.intelligence) / 4);
+                currCust.custImage = data.image.url;
+                currCust.enter();
+
+                delayedAction(() => {
+                    if (shop.isStoreOpen) {
+                        currCust.greet();
+                    }
+                }, CUST_DELAY_IN_MS)
+                    .then(() => {
+                        return delayedAction(() => {
+                            if (shop.isStoreOpen) {
+                                currCust.order(randomizeCustOrder());
+                            }
+                        }, CUST_DELAY_IN_MS)
+                    })
+            };
         })
         .catch(error => {
             console.log('err: ', error);
@@ -593,8 +613,8 @@ const checkAnswer = (event, correctID) => {
     if (selectedID === correctID.toString()) {
         SND_CORRECT.play();
         $answer.empty();
-        $answer.html(`<p>You've correctly identified ${hero.custName}.</p>`);
-        hero.isRecognized =true;
+        $answer.html(`<p>You've correctly identified ${hero.custName}.</p><p>Complete the order to earn extra tip</p>`);
+        hero.isRecognized = true;
     } else {
         SND_WRONG.play();
         $answer.empty();
