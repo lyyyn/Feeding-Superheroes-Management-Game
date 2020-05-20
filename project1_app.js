@@ -12,7 +12,8 @@ const NUM_OF_DAILY_CUST = 5;
 const LIST_OF_BROKEN_HEROES = [51, 54, 74, 101, 113, 117, 131, 133, 134, 143, 164, 184, 205, 244, 283, 288, 290, 291, 292, 362, 447, 453, 511, 512, 552, 553, 593, 603, 629, 662, 682, 694, 698, 715, 721, 725];
 const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into class and create instance
 const ORDER_NULL_PROBABILITY = 30;
-const DAY_MESSAGE = ['Ready for your first day?'];
+const DAY_MESSAGE_TITLE = ['Ready for your first day?'];
+const WELCOME_MESSAGE_CONTENT = `Superheroes will teleport into our store soon. <br/>Just drag the food they order to the Superheroes image to serve. <br/>They will pay you when they leave, uhm.. <br/>provided that you completed the order before store close. <br/>`
 const ENTRY_GREETINGS = ['Hullo', 'Hi', 'Ooosh!', 'How do you do', 'Goodday', 'G\'day', 'Good afternoon'];
 const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
 const DAY_SUMMARY = ['', 'Summary of Day 1', 'Summary of Day 2', 'Summary of Day 3', 'Summary of Day 4', 'Summary of Day 5'];
@@ -390,7 +391,9 @@ const generateInitialCustomer = () => {
 
 const progress = (timeleft, timetotal, $element) => {
     var progressBarWidth = timeleft * $element.width() / timetotal;
-    $element.find('div').animate({ width: progressBarWidth }, timeleft == timetotal ? 0 : 1000, 'linear');
+    $element.find('div')
+        .animate({ width: progressBarWidth }, timeleft == timetotal ? 0 : 1000, 'linear')
+        .html(timeleft + 's');
     if (timeleft > 0) {
         setTimeout(() => {
             progress(timeleft - 1, timetotal, $element);
@@ -430,6 +433,7 @@ const setMessage = (newTitle, buttonText = 'Next', newContent = '') => {
     }
 
     $modalButton.text(buttonText);
+    $modalButton.focus();
 }
 
 //Event listener
@@ -443,13 +447,16 @@ $modalButton.on('click', (Event) => {
     }
 });
 
+$(document).on('keypress',function(key) {
+    if(key.which == 13) {
+        $modalButton.click();
+    }
+});
+
 //main
 $(() => {
     //Day Cycle
-    setMessage(DAY_MESSAGE[shop.currDay], START_DAY, `Superheroes will teleport into our store soon. <br/>
-    Just drag the food they order to the Superheroes image to serve. <br/>
-    They will pay you when they leave, uhm.. <br/>
-    provided that you completed the order before store close. <br/>`);
+    setMessage(DAY_MESSAGE_TITLE[shop.currDay], START_DAY, WELCOME_MESSAGE_CONTENT);
     setTimeout(displayMessage, 1000);
 
 

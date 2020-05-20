@@ -337,12 +337,14 @@ action {
 #timebar {
     width: 150px;
     margin: 0 auto;
-    height: 18px;
+    height: 25px;
+    color:white;
 }
 
 #timebar div {
     height: 100%;
     text-align: right;
+    padding: 3px;
     line-height: 18px;
     /* same as #progressBar height if we want text middle aligned */
     width: 0;
