@@ -14,20 +14,20 @@ const LIST_OF_BROKEN_HEROES = [51, 54, 74, 101, 113, 117, 131, 133, 134, 143, 16
 const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into class and create instance
 const ORDER_NULL_PROBABILITY = 30;
 const DAY_MESSAGE_TITLE = ['Ready for your first day?'];
-const WELCOME_MESSAGE_CONTENT = `Superheroes will teleport into our store soon. <br/>Just drag the food they order to the Superheroes image to serve. <br/>They will pay you when they leave, uhm.. <br/>provided that you completed the order before store close. <br/>`
+const WELCOME_MESSAGE_CONTENT = `Superheroes will teleport into our store soon. <br/>Just drag the food they order to the Superheroes image to serve. <br/>They will pay you when they leave, uhm.. <br/>provided that you completed the order before store close. <br/><br/>You can guess their name for extra tip.<br/>`
 const QUIZ_QUESTIONS = ['You look familiar. Are you', 'Hey! I think I know you', 'Do I know you?', 'Have we met before?', 'I\'ve seen you somewhere', 'And your name must be', 'I know you!', 'It\'s been a while,']
 const ENTRY_GREETINGS = ['Hullo', 'Hi', 'Ooosh!', 'How do you do', 'Goodday', 'G\'day', 'Good afternoon'];
 const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
 const FOOD_ARR = [ //plan to read from files in the future
-    { foodID: 0, foodName: 'Oolong Tea', foodIngredients: 'Tea', foodOrigin: 'China', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 6, foodPriceinSGD: 2, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/jDVRwQ0/drink-tea.png' },
-    { foodID: 1, foodName: 'Arabica Coffee', foodIngredients: 'Coffee', foodOrigin: 'Indonesia', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 15000, foodPriceinSGD: 2.5, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/5xy7jMz/drink-coffee.png' },
-    { foodID: 2, foodName: 'Kunlun Water', foodIngredients: 'Water', foodOrigin: 'China', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 5, foodPriceinSGD: 1.5, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/kQ9GXxS/drink-water.png' },
-    { foodID: 3, foodName: 'Yunnan Broccoli', foodIngredients: 'Broccoli', foodOrigin: 'China', foodType: 'Veggie', foodMethod: 'Steam', foodCostFrSupplier: 9, foodPriceinSGD: 4, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/7b33T88/food-steam-Broccoli.png' },
-    { foodID: 4, foodName: 'Egg Custard', foodIngredients: 'Egg', foodOrigin: 'China', foodType: 'Protein', foodMethod: 'Steam', foodCostFrSupplier: 15.6, foodPriceinSGD: 5.25, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/GcPm5wf/food-steam-Egg.png' },
-    { foodID: 5, foodName: 'Steam Tofu', foodIngredients: 'Tofu', foodOrigin: 'China', foodType: 'Protein', foodMethod: 'Steam', foodCostFrSupplier: 12.5, foodPriceinSGD: 4.5, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png' },
-    { foodID: 6, foodName: 'Hainan Chicken', foodIngredients: 'Chicken', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 18.25, foodPriceinSGD: 6, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png' },
-    { foodID: 7, foodName: 'Steam Fish', foodIngredients: 'Fish', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 20.3, foodPriceinSGD: 7, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/rssrvZL/food-steam-Fish.png' },
-    { foodID: 8, foodName: 'Thai Rice', foodIngredients: 'Rice', foodOrigin: 'Thailand', foodType: 'Carbo', foodMethod: 'Steam', foodCostFrSupplier: 40, foodPriceinSGD: 3, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/TvddwdV/food-Rice.png' }
+    {foodID:0,foodName:'Oolong Tea',foodIngredients:'Tea',foodOrigin:'China',foodType:'Drink',foodMethod:'Boil',foodCostFrSupplier:12,foodPriceinSGD:9.25,foodRating:2,foodQty:10,foodImage:'https://i.ibb.co/jDVRwQ0/drink-tea.png'},
+    {foodID:1,foodName:'Arabica Coffee',foodIngredients:'Coffee',foodOrigin:'Indonesia',foodType:'Drink',foodMethod:'Boil',foodCostFrSupplier:30000,foodPriceinSGD:11.75,foodRating:2,foodQty:10,foodImage:'https://i.ibb.co/5xy7jMz/drink-coffee.png'},
+    {foodID:2,foodName:'Kunlun Water',foodIngredients:'Water',foodOrigin:'China',foodType:'Drink',foodMethod:'Boil',foodCostFrSupplier:10,foodPriceinSGD:6.5,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/kQ9GXxS/drink-water.png'},
+    {foodID:3,foodName:'Yunnan Broccoli',foodIngredients:'Broccoli',foodOrigin:'China',foodType:'Veggie',foodMethod:'Steam',foodCostFrSupplier:18,foodPriceinSGD:15.25,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/7b33T88/food-steam-Broccoli.png'},
+    {foodID:4,foodName:'Egg Custard',foodIngredients:'Egg',foodOrigin:'China',foodType:'Protein',foodMethod:'Steam',foodCostFrSupplier:31.2,foodPriceinSGD:19.5,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/GcPm5wf/food-steam-Egg.png'},
+    {foodID:5,foodName:'Steam Tofu',foodIngredients:'Tofu',foodOrigin:'China',foodType:'Protein',foodMethod:'Steam',foodCostFrSupplier:25,foodPriceinSGD:18.8,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/yy2GcX8/food-steam-Tofu.png'},
+    {foodID:6,foodName:'Hainan Chicken',foodIngredients:'Chicken',foodOrigin:'China',foodType:'Meat',foodMethod:'Steam',foodCostFrSupplier:36.5,foodPriceinSGD:24,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png'},
+    {foodID:7,foodName:'Steam Fish',foodIngredients:'Fish',foodOrigin:'China',foodType:'Meat',foodMethod:'Steam',foodCostFrSupplier:40.6,foodPriceinSGD:28,foodRating:2,foodQty:10,foodImage:'https://i.ibb.co/rssrvZL/food-steam-Fish.png'},
+    {foodID:8,foodName:'Thai Rice',foodIngredients:'Rice',foodOrigin:'Thailand',foodType:'Carbo',foodMethod:'Steam',foodCostFrSupplier:80,foodPriceinSGD:12.4,foodRating:1,foodQty:10,foodImage:'https://i.ibb.co/TvddwdV/food-Rice.png'}
 ];
 const SUPPLIER_ARR = [
     { supplierCountry: 'Singapore', supplierCurrency: 'SGD', currencyRate: 1 },
@@ -98,7 +98,7 @@ class Shop {
     constructor() {
         this.currDay = ZERO;
         this.isStoreOpen = false;
-        this.level = 1;
+        // this.level = 1;
         this.todayEarning = ZERO;
         this.todayTip = ZERO;
         this.todayCost = ZERO;
@@ -135,7 +135,7 @@ class Shop {
     open() {
         SND_STORE_OPEN.play();
         console.log(`store is open for day ${this.currDay}`);
-        
+
         shop.isStoreOpen = true;
         //generate customer with random order till the timer run out
         generateInitialCustomer();
@@ -205,15 +205,16 @@ class Customer {
         this.custID = '';
         this.custName = '';
         this.custGender = '';
-        this.custMoney = 100;
-        this.custTip = 10;
+        // this.custMoney = 100;
+        this.custTip = 0;
         this.custImage = '';
-        this.custPatience = 5; //willing to wait for 5 secs
+        // this.custPatience = 5; //willing to wait for 5 secs
+        this.isRecognized = false;
         this.custOrder = [];
         this.custFulfilled = [];
         this.custSlot = 0;
         this.custOrderSaying = '';
-        this.custOrderCompleted = true
+        // this.custOrderCompleted = false;
     }
     enter() {
         if (shop.isStoreOpen) {
@@ -291,12 +292,26 @@ class Customer {
         let receipt = 0;
         let cost = 0;
         let profit = 0;
+        const pronouns = (this.custGender === 'Female') ? 'She' : 'He';
         this.custOrder.forEach(food => {
             receipt += food.foodPriceinSGD;
             cost += food.foodCostFrSupplier / shop.getSupplierByCountry(food.foodOrigin).originRate;
             profit += food.foodPriceinSGD - (food.foodCostFrSupplier / shop.getSupplierByCountry(food.foodOrigin).originRate);
             console.log(food.foodName + ': ' + food.foodPriceinSGD);
         })
+        $answer.html(`<p>${this.custName} paid ${formatCurr(receipt)}.</p>`);
+        
+        //add tips if guessed correctly earlier
+        if (this.isRecognized === true){
+            $answer.append(`<p>${pronouns} tipped you ${formatCurr(this.custTip)}.</p>`);
+            $answer.append(`<p>Total received from ${this.custName}: ${formatCurr(receipt+this.custTip)}.</p>`);
+            shop.todayTip += this.custTip;
+            shop.totalTip += this.custTip;
+            shop.todayProfit += this.custTip;
+            shop.totalProfit += this.custTip;
+            console.log(this.custName + ' tipped ' + this.custTip);
+        }
+        
         console.log('sales: ' + receipt);
         console.log('cost: ' + cost.toFixed(2));
         console.log('profit: ' + profit.toFixed(2));
@@ -468,8 +483,7 @@ const fetchCustomer = (unqID) => {
             currCust.custID = data.id;
             currCust.custName = data.name;
             currCust.custGender = data.appearance.gender;
-            currCust.custMoney = parseInt(data.powerstats.intelligence) + parseInt(data.powerstats.strength) + parseInt(data.powerstats.speed) + parseInt(data.powerstats.durability) + parseInt(data.powerstats.power) + parseInt(data.powerstats.combat);
-            currCust.custTip = parseInt(data.powerstats.intelligence);
+            currCust.custTip = (data.powerstats.intelligence === 'null')? 3 : (parseInt(data.powerstats.intelligence)/4);
             currCust.custImage = data.image.url;
             currCust.enter();
             delayedAction(() => {
@@ -571,24 +585,18 @@ const setMessage = (newTitle, buttonText = 'Next', newContent = '') => {
     $modalButton.text(buttonText);
 };
 
-const checkAnswer = (event,correctID) => {
+const checkAnswer = (event, correctID) => {
     const selectedID = $(event.target).val();
     const hero = shop.getCustomerByID(correctID.toString());
-    const pronouns = (hero.custGender === 'Female')? 'She' : 'He';
     if (selectedID === correctID.toString()) {
         SND_CORRECT.play();
         $answer.empty();
         $answer.html(`<p>You've correctly identified ${hero.custName}.</p>`);
-        $answer.html(`<p>${pronouns} tipped you ${formatCurr(hero.custTip)}.</p>`);
-        shop.todayTip += hero.custTip;
-        shop.todayProfit += hero.custTip;
-        shop.totalProfit += hero.custTip;
-        updateDisplay();
-        console.log(hero.custName + ' tipped ' + hero.custTip);
-    } else{
+        hero.isRecognized =true;
+    } else {
         SND_WRONG.play();
         $answer.empty();
-        $answer.html(`<p>Sorry, you must be mistaken.</p>`);   
+        $answer.html(`<p>Sorry, you must be mistaken.</p>`);
     }
 };
 
