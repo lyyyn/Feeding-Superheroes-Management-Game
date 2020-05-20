@@ -6,7 +6,7 @@ You will be managing a shop especially serving superheroes. Drag and drop food d
 When you completed the set requested by superhero, you will get paid. On top of that, if you recognized the superheroes and guessed the name correctly, they will give you extra tip, provided that you completed their order, of course.
 
 ## Game Link
-[https://lyyyn.github.io/Feeding-Superheroes/](https://lyyyn.github.io/Feeding-Superheroes/)
+[https://lyyyn.github.io/Feeding-Superheroes/](https://lyyyn.github.io/Feeding-Superheroes-Management-Game/)
 
 ## Technologies
 * **HTML**
@@ -50,33 +50,33 @@ Of course the game doesn't turned out exactly as I originally planned. Along the
 
 ## Wireframe Design and User Stories
 1. This is the first sketch of how I plan it.
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/Step%201.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/Step%202.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/Step%201.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/Step%202.png" width="500px"/>
 
 2. then I created the wireframe in HTML, nothing fancy
 <img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/wireframe1.png" width="500px"/>
 
 3. Then I develop the basic functionality, the day loop with timer, the food layout, the customer coming in, the modal pop up at the beginning and end of day.
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/firstFunctionalVersionA.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/firstFunctionalVersionB.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/firstFunctionalVersionC.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/firstFunctionalVersionA.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/firstFunctionalVersionB.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/firstFunctionalVersionC.png" width="500px"/>
 
 4. Then I prettify the look.
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/secondFunctionalVersionA.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/secondFunctionalVersionB.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/secondFunctionalVersionC.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/secondFunctionalVersionA.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/secondFunctionalVersionB.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/secondFunctionalVersionC.png" width="500px"/>
 
 5. Then I add more functionality to it. The drag and drop to serve the food to customer, the customer leaving, the customer pay, add the end day calculation, display the EOD summary, balancing the number economically, add the quiz and tipping logic. Added sound effect on it too.
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionA.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/thirdFunctionalVersionA.png" width="500px"/>
 <img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionB.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionC.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionD.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionE.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionF.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionG.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionH.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionI.png" width="500px"/>
-<img src="https://github.com/lyyyn/Feeding-Superheroes/blob/master/mockup/thirdFunctionalVersionJ.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/thirdFunctionalVersionC.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/thirdFunctionalVersionD.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/thirdFunctionalVersionE.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/thirdFunctionalVersionF.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/thirdFunctionalVersionG.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/thirdFunctionalVersionH.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/thirdFunctionalVersionI.png" width="500px"/>
+<img src="https://github.com/lyyyn/Feeding-Superheroes-Management-Game/blob/master/mockup/thirdFunctionalVersionJ.png" width="500px"/>
 
 ## Additional Features were under Considerations
 - Add jukebox capability where player can select the background sound
