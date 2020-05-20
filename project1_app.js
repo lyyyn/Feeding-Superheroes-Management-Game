@@ -275,7 +275,9 @@ const displayFood = () => {
             }
         },
         over: function (event, elem) {
-            $(this).addClass("over");
+            if (shop.isStoreOpen) {
+                $(this).addClass("over");
+            }
         },
         out: function (event, elem) {
             $(this).removeClass("over");
@@ -334,11 +336,15 @@ const fetchCustomer = (unqID) => {
             currCust.custImage = data.image.url;
             currCust.enter();
             delayedAction(() => {
-                currCust.greet();
+                if (shop.isStoreOpen) {
+                    currCust.greet();
+                }
             }, CUST_DELAY_IN_MS)
                 .then(() => {
                     return delayedAction(() => {
-                        currCust.order(randomizeCustOrder());
+                        if (shop.isStoreOpen) {
+                            currCust.order(randomizeCustOrder());
+                        }
                     }, CUST_DELAY_IN_MS)
                 })
         })
