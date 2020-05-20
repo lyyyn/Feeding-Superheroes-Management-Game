@@ -122,8 +122,31 @@ class Shop {
         salesSummary += `<tr><td>Today's Sales</td><td>${formatCurr(this.todayEarning)}</td></tr>`;
         salesSummary += `<tr><td>Cost of Food</td><td>${formatCurr(this.todayCost)}</td></tr>`;
         salesSummary += `<tr><td>Today's Profit</td><td>${formatCurr(this.todayProfit)}</td></tr>`;
+        salesSummary += `<tr><td><canvas id="myChart"></canvas></td></tr>`;
         salesSummary += `</table>`;
         this.todaySummary.push(salesSummary);
+    }
+    createPieChart() {
+        const ctx = $('#myChart');
+        const myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Cost', 'Profit'],
+                datasets: [{
+                    label: 'Today\'s Sales',
+                    data: [this.todayCost.toFixed(2), this.todayProfit.toFixed(2)],
+                    backgroundColor: [
+                        'rgb(240, 58, 23)',
+                        'rgb(1, 123, 196)'
+                    ],
+                    borderColor: [
+                        'rgb(0, 0, 0)',
+                        'rgb(0, 0, 0)'
+                    ],
+                    borderWidth: 2
+                }]
+            }
+        });
     }
     close() {
         console.log(`closing store for day ${this.currDay}`);
@@ -455,6 +478,7 @@ const progress = (timeleft, timetotal, $element) => {
         setTimeout(() => {
             shop.close();//calculate the summary
             setMessage(`Summary for Day ${(shop.currDay)}`, START_DAY, shop.todaySummary[(shop.currDay)]);
+            shop.createPieChart();
             setTimeout(displayMessage, 1000);
         }, 1000);
     }
