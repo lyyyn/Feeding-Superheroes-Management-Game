@@ -4,7 +4,7 @@ const HAPPY = 'happy';
 const ANGRY = 'angry';
 const START_DAY = 'Start Day';
 const DEFAULT_CURR = 'SGD';
-const DAY_SECONDS = 20;
+const DAY_SECONDS = 30;
 const CUST_DELAY_IN_MS = 500; //0.5 sec
 const NUM_OF_SLOT = 5;
 const NUM_OF_FOOD = 9;
@@ -46,6 +46,7 @@ const SND_STORE_CLOSE = new Audio('./Sounds/store_close.mp3');
 const SND_STORE_OPEN = new Audio('./Sounds/store_open.mp3');
 const SND_CORRECT = new Audio('./Sounds/tada.mp3');
 const SND_WRONG = new Audio('./Sounds/tetot.mp3');
+const SND_CASHIER = new Audio('./Sounds/cashier.mp3');
 
 //DOM variables  
 const $modal = $('#modal');
@@ -289,6 +290,7 @@ class Customer {
         };
     }
     settleBill() {
+        SND_CASHIER.play();
         let receipt = 0;
         let cost = 0;
         let profit = 0;
