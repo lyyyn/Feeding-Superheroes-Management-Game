@@ -100,18 +100,6 @@ iframe {
     align-content: center;
 }
 
-.red {
-    border-color: red;
-}
-
-.green {
-    border-color: lightgreen;
-}
-
-.blue {
-    border-color: steelblue;
-}
-
 .wood {
     background-color: #6c2505;
     background-size: 40px 160px, 60px 29px, 27px 27px;
@@ -283,6 +271,22 @@ label {
     font-family: 'Comic Neue', cursive;
     font-size: 1rem;
     font-weight: bold;
+}
+
+.answerOption {
+    background-color: rgb(255, 255, 255, 0.5);
+    border: 2px solid ghostwhite;
+    width: 90%;
+    padding: 5px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    text-align: left;
+    cursor: pointer;
+}
+
+.answerOption:hover {
+    background-color: rgb(240, 58, 23);
+    border: 2px solid black;
 }
 
 food {

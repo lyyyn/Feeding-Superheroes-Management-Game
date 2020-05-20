@@ -643,7 +643,7 @@ const askQuiz = (event) => {
     $answer.empty();
     $answer.append(`<div>${getRandom(QUIZ_QUESTIONS)}</div>`);
     shuffle(answer).forEach(hero => {
-        $answer.append(`<div><input type="radio" value="${hero.custID}" onclick="checkAnswer(event,${correctID})"> ${hero.custName}</div>`);
+        $answer.append(`<div><button type="radio" class="answerOption" value="${hero.custID}" onclick="checkAnswer(event,${correctID})"> ${hero.custName}</button></div>`);
     })
 
     console.log(shop.getCustomerByID(correctID).custName);
