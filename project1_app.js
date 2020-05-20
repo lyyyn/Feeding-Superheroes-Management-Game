@@ -100,10 +100,12 @@ class Shop {
         this.isStoreOpen = false;
         this.level = 1;
         this.todayEarning = ZERO;
+        this.todayTip = ZERO;
         this.todayCost = ZERO;
         this.todayProfit = ZERO;
         this.todayHappyCust = ZERO;
         this.totalEarning = ZERO;
+        this.totalTip = ZERO;
         this.totalProfit = ZERO;
         this.totalHappyCust = ZERO;
         this.todayCust = [];
@@ -112,6 +114,7 @@ class Shop {
         this.todayUniqueCustID = [];
         this.todaySummary = ['']; //it's purposely initiated with a empty string to skip the 0 index of array
         this.historicalEarning = [''];
+        this.historicalTip = [''];
         this.historicalCost = [''];
         this.historicalProfit = [''];
     }
@@ -139,6 +142,7 @@ class Shop {
     }
     recordDailySales() {
         this.historicalEarning.push(this.todayEarning);
+        this.historicalTip.push(this.todayTip);
         this.historicalCost.push(this.todayCost);
         this.historicalProfit.push(this.todayProfit);
     }
@@ -147,6 +151,7 @@ class Shop {
         salesSummary += `<table>`;
         salesSummary += `<tr><td><table>`;
         salesSummary += `<tr><td>Today's Sales</td><td>${formatCurr(this.todayEarning)}</td></tr>`;
+        salesSummary += `<tr><td>Today's Tip</td><td>${formatCurr(this.todayTip)}</td></tr>`;
         salesSummary += `<tr><td>Cost of Food</td><td>${formatCurr(this.todayCost)}</td></tr>`;
         salesSummary += `<tr><td>Today's Profit</td><td>${formatCurr(this.todayProfit)}</td></tr>`;
         salesSummary += `</table></td>`;
@@ -201,6 +206,7 @@ class Customer {
         this.custName = '';
         this.custGender = '';
         this.custMoney = 100;
+        this.custTip = 10;
         this.custImage = '';
         this.custPatience = 5; //willing to wait for 5 secs
         this.custOrder = [];
@@ -418,6 +424,7 @@ const prepareFood = () => {
 
 const resetVars = () => {
     shop.todayEarning = ZERO;
+    shop.todayTip = ZERO;
     shop.todayHappyCust = ZERO;
     shop.todayCost = ZERO;
     shop.todayProfit = ZERO;
@@ -461,6 +468,8 @@ const fetchCustomer = (unqID) => {
             currCust.custID = data.id;
             currCust.custName = data.name;
             currCust.custGender = data.appearance.gender;
+            currCust.custMoney = parseInt(data.powerstats.intelligence) + parseInt(data.powerstats.strength) + parseInt(data.powerstats.speed) + parseInt(data.powerstats.durability) + parseInt(data.powerstats.power) + parseInt(data.powerstats.combat);
+            currCust.custTip = parseInt(data.powerstats.intelligence);
             currCust.custImage = data.image.url;
             currCust.enter();
             delayedAction(() => {
@@ -569,7 +578,13 @@ const checkAnswer = (event,correctID) => {
     if (selectedID === correctID.toString()) {
         SND_CORRECT.play();
         $answer.empty();
-        $answer.html(`<p>You've correctly identified ${hero.custName}.</p>`);        
+        $answer.html(`<p>You've correctly identified ${hero.custName}.</p>`);
+        $answer.html(`<p>${pronouns} tipped you ${formatCurr(hero.custTip)}.</p>`);
+        shop.todayTip += hero.custTip;
+        shop.todayProfit += hero.custTip;
+        shop.totalProfit += hero.custTip;
+        updateDisplay();
+        console.log(hero.custName + ' tipped ' + hero.custTip);
     } else{
         SND_WRONG.play();
         $answer.empty();
