@@ -35,6 +35,14 @@ const SUPPLIER_ARR = [
     { supplierCountry: 'Indonesia', supplierCurrency: 'IDR', currencyRate: 9413.1 }
 ]
 
+//Chart Global Config
+Chart.defaults.global.legend.display = false;
+
+
+//Audio variables
+const SND_CUST_ENTER = new Audio('./Sounds/cust_enter.mp3');
+const SND_STORE_CLOSE = new Audio('./Sounds/store_close.mp3');
+
 //DOM variables  
 const $modal = $('#modal');
 const $modalTitle = $('#modal-title');
@@ -72,6 +80,9 @@ class Shop {
         this.todayCost = ZERO;
         this.todayProfit = ZERO;
         this.todayHappyCust = ZERO;
+        this.totalEarning = ZERO;
+        this.totalProfit = ZERO;
+        this.totalHappyCust = ZERO;
         this.todayCust = [];
         this.todayFood = [];
         this.todaySupplier = [];
@@ -101,16 +112,6 @@ class Shop {
         //generate customer with random order till the timer run out
         generateInitialCustomer();
     }
-    calcCost(customer) {
-        let cost = 0;
-        customer.custOrder.forEach(food => {
-            cost += food.foodCostFrSupplier / this.getSupplierByCountry(food.foodOrigin).originRate;
-        })
-        this.todayCost += cost;
-    }
-    calcProfit() {
-        this.todayProfit = this.todayEarning - this.todayCost;
-    }
     recordDailySales() {
         this.historicalEarning.push(this.todayEarning);
         this.historicalCost.push(this.todayCost);
@@ -119,16 +120,22 @@ class Shop {
     formatAndSaveSalesSummary() {
         let salesSummary = '';
         salesSummary += `<table>`;
+        salesSummary += `<tr><td><table>`;
         salesSummary += `<tr><td>Today's Sales</td><td>${formatCurr(this.todayEarning)}</td></tr>`;
         salesSummary += `<tr><td>Cost of Food</td><td>${formatCurr(this.todayCost)}</td></tr>`;
         salesSummary += `<tr><td>Today's Profit</td><td>${formatCurr(this.todayProfit)}</td></tr>`;
-        salesSummary += `<tr><td><canvas id="myChart"></canvas></td></tr>`;
+        salesSummary += `</table></td>`;
+        salesSummary += `<td><table>`
+        salesSummary += `<tr><td>Happy Customer</td><td>${this.todayHappyCust}</td></tr>`;
+        salesSummary += `<tr><td>Upset Customer</td><td>${ZERO}</td></tr>`;
+        salesSummary += `</table></td></tr>`;
+        salesSummary += `<tr><td><canvas id="pieChart"></canvas></td></tr>`;
         salesSummary += `</table>`;
         this.todaySummary.push(salesSummary);
     }
     createPieChart() {
-        const ctx = $('#myChart');
-        const myChart = new Chart(ctx, {
+        const ctx = $('#pieChart');
+        const pieChart = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: ['Cost', 'Profit'],
@@ -147,14 +154,19 @@ class Shop {
                 }]
             }
         });
+
     }
     close() {
+        SND_STORE_CLOSE.play();
         console.log(`closing store for day ${this.currDay}`);
         shop.isStoreOpen = false;
-        this.calcProfit();
-        this.recordDailySales();
-        this.formatAndSaveSalesSummary();
         cleaningSlots();
+        delayedAction(() => {
+            this.recordDailySales();
+            this.formatAndSaveSalesSummary();
+            setMessage(`Summary for Day ${(this.currDay)}`, START_DAY, this.todaySummary[(this.currDay)]);
+            this.createPieChart();
+        }, CUST_DELAY_IN_MS)
     }
 }
 
@@ -172,13 +184,16 @@ class Customer {
         this.custOrderCompleted = true
     }
     enter() {
-        //enter the store
-        //pick empty slot
-        this.custSlot = $('.empty:eq(0)').attr('id');
-        $('.empty:eq(0)').removeClass('empty');
-        $('#' + this.custSlot)
-            .css('background-image', `url("${this.custImage}")`)
-            .attr('custid', this.custID);
+        if (shop.isStoreOpen) {
+            //enter the store
+            SND_CUST_ENTER.play();
+            //pick empty slot
+            this.custSlot = $('.empty:eq(0)').attr('id');
+            $('.empty:eq(0)').removeClass('empty');
+            $('#' + this.custSlot)
+                .css('background-image', `url("${this.custImage}")`)
+                .attr('custid', this.custID);
+        }
     }
     greet() {
         //say something
@@ -218,7 +233,6 @@ class Customer {
             if (this.isOrderCompleted()) {
                 delayedAction(() => {
                     this.settleBill();
-                    shop.calcCost(this);
                     this.leave(HAPPY);
                 }, CUST_DELAY_IN_MS)
                     .then(() => {
@@ -242,18 +256,29 @@ class Customer {
     }
     settleBill() {
         let receipt = 0;
+        let cost = 0;
+        let profit = 0;
         this.custOrder.forEach(food => {
             receipt += food.foodPriceinSGD;
+            cost += food.foodCostFrSupplier / shop.getSupplierByCountry(food.foodOrigin).originRate;
+            profit += food.foodPriceinSGD - (food.foodCostFrSupplier / shop.getSupplierByCountry(food.foodOrigin).originRate);
             console.log(food.foodName + ': ' + food.foodPriceinSGD);
         })
-        console.log('total: ' + receipt);
+        console.log('sales: ' + receipt);
+        console.log('cost: ' + cost.toFixed(2));
+        console.log('profit: ' + profit.toFixed(2));
         shop.todayEarning += receipt;
+        shop.totalEarning += receipt;
+        shop.todayCost += cost;
+        shop.todayProfit += profit;
+        shop.totalProfit += profit;
         updateDisplay();
     }
     leave(mood) {
         //leave the store
         if (mood === HAPPY) {
             shop.todayHappyCust++;
+            shop.totalHappyCust++;
             updateDisplay();
         }
         console.log(this.custName + ' leave store');
@@ -263,8 +288,6 @@ class Customer {
             .attr('custid', '')
             .addClass('empty');
     }
-
-
 }
 
 class Food {
@@ -372,6 +395,7 @@ const resetVars = () => {
     shop.todayEarning = ZERO;
     shop.todayHappyCust = ZERO;
     shop.todayCost = ZERO;
+    shop.todayProfit = ZERO;
     shop.todayFood.splice(ZERO, shop.todayFood.length); //empty array without reassigning
     shop.todayCust.splice(ZERO, shop.todayCust.length);
     shop.todayUniqueCustID.splice(ZERO, shop.todayUniqueCustID.length);
@@ -382,13 +406,14 @@ const cleaningSlots = () => {
     $('.customer').css('background-image', '');
     $('.customer').empty();
     $('.customer').addClass('empty');
+    $('.customer').removeClass('over');
     $('.customer').attr('custid', '');
 }
 
 const updateDisplay = () => {
     $('#day').text(`Day: ${shop.currDay}`);
-    $('#money').text(`SGD ${shop.todayEarning}`);
-    $('#happy').text(`${String.fromCodePoint(128523)} ${shop.todayHappyCust}`); //&#128523; smiley deliciously 😋
+    $('#money').text(`SGD ${shop.totalProfit.toFixed(2)}`);
+    $('#happy').text(`${String.fromCodePoint(128523)} ${shop.totalHappyCust}`); //&#128523; smiley deliciously 😋
     //&#128545; angry face 😡
 }
 
@@ -477,8 +502,6 @@ const progress = (timeleft, timetotal, $element) => {
     } else {
         setTimeout(() => {
             shop.close();//calculate the summary
-            setMessage(`Summary for Day ${(shop.currDay)}`, START_DAY, shop.todaySummary[(shop.currDay)]);
-            shop.createPieChart();
             setTimeout(displayMessage, 1000);
         }, 1000);
     }
