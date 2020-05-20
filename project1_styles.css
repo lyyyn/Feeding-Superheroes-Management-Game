@@ -102,6 +102,13 @@ h1 {
     background-image: linear-gradient(60deg, rgba(91, 33, 5, 0.1) 0%, rgba(83, 29, 4, 0.32) 23%, rgba(74, 24, 3, 0.41) 47%, rgba(80, 27, 5, 0.44) 70%, rgba(81, 27, 5, 0.59) 74%, rgba(93, 33, 4, 0.2) 83%, rgba(115, 43, 3, 0.5) 100%), linear-gradient(45deg, #541c09 50%, transparent 50%), linear-gradient(55deg, #7a2e00 50%, #632401 50%);
 }
 
+.metal {
+    background-image: -webkit-repeating-linear-gradient(left, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%, 0) 6%, hsla(0, 0%, 100%, .1) 7.5%), -webkit-repeating-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, 0) 4%, hsla(0, 0%, 0%, .03) 4.5%), -webkit-repeating-linear-gradient(left, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%, 0) 1.2%, hsla(0, 0%, 100%, .15) 2.2%), linear-gradient(180deg, hsl(0, 0%, 78%) 0%, hsl(0, 0%, 90%) 47%, hsl(0, 0%, 78%) 53%, hsl(0, 0%, 70%)100%);
+    background-color: hsl(0,0%,90%);
+    box-shadow: inset hsla(0,0%,15%, 1) 0 0px 0px 4px, /* border */ inset hsla(0,0%,15%, .8) 0 -1px 5px 4px, /* soft SD */ inset hsla(0,0%,0%, .25) 0 -1px 0px 7px, /* bottom SD */ inset hsla(0,0%,100%,.7) 0 2px 1px 7px, /* top HL */ hsla(0,0%, 0%,.15) 0 -5px 6px 4px, /* outer SD */ hsla(0,0%,100%,.5) 0 5px 6px 4px;
+    transition: color .2s;
+}
+
 .fullwidth {
     width: 100%;
 }
@@ -122,10 +129,11 @@ topbar {
     padding-left: 15px;
     background-color: black;
     color: white;
+    font-size: 1.5rem;
 }
 
 day, happy, angry {
-    width: 60px;
+    width: 75px;
 }
 
 money {
@@ -136,8 +144,12 @@ main {
     padding: 1em;
     background-size: 8px 8px, 8px 8px, 8px 8px, 8px 8px, 8px 8px, 100% 100%;
     border-top: 3px solid #444;
-    margin-bottom: -4px;
     background-image: radial-gradient(ellipse farthest-corner, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 35%, #ffffff 30%, #ffffff 40%, rgba(0, 0, 0, 0) 90%), radial-gradient(ellipse farthest-corner at 0px 0px, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 20%, #ffffff 15%, #ffffff 20%, rgba(0, 0, 0, 0) 50%), radial-gradient(ellipse farthest-corner at 8px 8px, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 20%, #ffffff 15%, #ffffff 20%, rgba(0, 0, 0, 0) 50%), radial-gradient(ellipse farthest-corner at 0px 8px, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 20%, #ffffff 15%, #ffffff 20%, rgba(0, 0, 0, 0) 40%), radial-gradient(ellipse farthest-corner at 8px 0px, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 20%, #ffffff 15%, #ffffff 20%, rgba(0, 0, 0, 0) 50%), linear-gradient(40deg, #acacac 0, #dadada 30%, #f2f2f2 50%, #dadada 70%, #acacac 100%);
+}
+
+customer {
+    border: 4px solid rgb(255,255,255,0);
+    border-bottom: 0px;
 }
 
 .customer {
@@ -145,30 +157,16 @@ main {
     flex-direction: column;
     justify-content: flex-end;
     align-content: stretch;
-    width: 100px;
-    height: 150px;
+    width: 125px;
+    height: 175px;
     background-size: cover;
     background-image: '';
     border: 2px solid rgb(255, 255, 255, 0);
 }
 
-/* .customer span {
-    background-color: rgb(255, 255, 255, 0.7);
-    font-family: 'Comic Sans', cursive;
-    font-size: 0.65rem;
-    color: black;
-    border: solid 2px #000;
-    margin: 0;
-    padding: 3px 10px;
-    bottom: -2px;
-    position: relative;
-    left: -6px;
-    transform: skew(-10deg);
-} */
-
 .customer span {
     font-family: 'Comic Sans', cursive;
-    font-size: 0.65rem;
+    font-size: 0.8rem;
     /* font-weight: bold; */
     background-color: rgb(0, 0, 0, 0.7);
     color: white;
@@ -207,16 +205,16 @@ main {
 }
 
 kitchentop {
-    padding-top: 20px;
+    padding-top: 15px;
 }
 
 counter {
-    border: 2px solid black;
+    border: 4px solid black;
 }
 
 .counter {
     background-color: rgb(255, 200, 61, 0.7);
-    width: 100px;
+    width: 127px;
     height: 50px;
 }
 
@@ -276,7 +274,7 @@ action {
 
 #modal-container {
     /* background-color: white; */
-    background-image:radial-gradient(circle, rgb(255, 200, 61), orange);
+    background-image: radial-gradient(circle, rgb(255, 200, 61), orange);
     height: 350px;
     width: 550px;
     border-radius: 10px;
@@ -290,15 +288,30 @@ action {
     justify-content: space-between;
 }
 
-#modal-title {}
+#modal-title {
+    background-color: rgb(255, 255, 255, 0.7);
+    border: solid 2px #000;
+    margin: 0;
+    padding: 3px 10px;
+    bottom: -2px;
+    position: relative;
+    left: -6px;
+    transform: skew(-10deg);
+}
 
 #modal-content {
+    background-color: rgb(255, 255, 255, 0.7);
+    border: solid 2px #000;
+    margin: 10px 0;
+    bottom: -2px;
+    position: relative;
+    transform: skew(5deg);
     font-family: 'Comic Sans', cursive;
     font-size: 1rem;
     font-weight: bold;
     line-height: 175%;
     flex-grow: 10;
-    padding: 10px 0;
+    padding: 10px 7px;
     align-self: flex-start;
 }
 
@@ -308,9 +321,10 @@ action {
 }
 
 .modal-buttons {
-    padding: 14px 18px;
+    font-size: 1.5rem;
+    padding: 12px 14px;
     background-color: rgb(240, 58, 23);
-    border: none;
+    border: 2px solid black;
     outline: none;
     border-radius: 3px;
     color: white;

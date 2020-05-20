@@ -267,10 +267,12 @@ const displayFood = () => {
     $(".customer").droppable({
         accept: ".draggable",
         drop: function (event, ui) {
-            $(this).removeClass("border").removeClass("over");
-            const custID = $(event.target).attr('custid');
-            const thisCust = shop.getCustomerByID(custID);
-            thisCust.checkOrder(ui.draggable.attr('id'));
+            if (shop.isStoreOpen) {
+                $(this).removeClass("border").removeClass("over");
+                const custID = $(event.target).attr('custid');
+                const thisCust = shop.getCustomerByID(custID);
+                thisCust.checkOrder(ui.draggable.attr('id'));
+            }
         },
         over: function (event, elem) {
             $(this).addClass("over");
@@ -414,7 +416,13 @@ const closeMessage = () => {
 
 const setMessage = (newTitle, buttonText = 'Next', newContent = '') => {
     $modalTitle.text(newTitle);
-    $modalContent.html(newContent);
+    if (newContent === '') {
+        $modalContent.css('display', 'none');
+    } else {
+        $modalContent.html(newContent);
+        $modalContent.css('display', 'block');
+    }
+
     $modalButton.text(buttonText);
 }
 
@@ -432,7 +440,7 @@ $modalButton.on('click', (Event) => {
 //main
 $(() => {
     //Day Cycle
-    setMessage(DAY_MESSAGE[shop.currDay], START_DAY,`Superheroes will teleport into our store soon. <br/>
+    setMessage(DAY_MESSAGE[shop.currDay], START_DAY, `Superheroes will teleport into our store soon. <br/>
     Just drag the food they order to the Superheroes image to serve. <br/>
     They will pay you when they leave, uhm.. <br/>
     provided that you completed the order before store close. <br/>`);
