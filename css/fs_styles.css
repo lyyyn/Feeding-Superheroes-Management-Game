@@ -235,6 +235,7 @@ counter {
 
 .counter {
     background-color: rgb(255, 200, 61, 0.7);
+    border: 2px solid rgb(255,255,255,0);
     width: 127px;
     height: 50px;
 }

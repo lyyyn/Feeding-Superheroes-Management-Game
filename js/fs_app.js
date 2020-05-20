@@ -41,12 +41,12 @@ Chart.defaults.global.legend.display = false;
 
 
 //Audio variables
-const SND_CUST_ENTER = new Audio('./Sounds/cust_enter.mp3');
-const SND_STORE_CLOSE = new Audio('./Sounds/store_close.mp3');
-const SND_STORE_OPEN = new Audio('./Sounds/store_open.mp3');
-const SND_CORRECT = new Audio('./Sounds/tada.mp3');
-const SND_WRONG = new Audio('./Sounds/tetot.mp3');
-const SND_CASHIER = new Audio('./Sounds/cashier.mp3');
+const SND_CUST_ENTER = new Audio('./sounds/cust_enter.mp3');
+const SND_STORE_CLOSE = new Audio('./sounds/store_close.mp3');
+const SND_STORE_OPEN = new Audio('./sounds/store_open.mp3');
+const SND_CORRECT = new Audio('./sounds/tada.mp3');
+const SND_WRONG = new Audio('./sounds/tetot.mp3');
+const SND_CASHIER = new Audio('./sounds/cashier.mp3');
 
 //DOM variables  
 const $modal = $('#modal');
@@ -270,7 +270,7 @@ class Customer {
         if (shop.isStoreOpen) {
             $('#' + this.custSlot)
                 //&#128161;💡  &#128172;💬  &#129300;🤔
-                .html(`<button class="quiz" onclick="askQuiz(event)">${String.fromCodePoint(128172)}</button> <span>${this.custOrderSaying}</span>`);
+                .html(`<button class="quiz" onclick="askQuiz(event)" ontouchend="askQuiz(event)">${String.fromCodePoint(128172)}</button> <span>${this.custOrderSaying}</span>`);
         }
     }
     checkOrder(foodID) {
@@ -667,14 +667,14 @@ const askQuiz = (event) => {
     $answer.empty();
     $answer.append(`<div>${getRandom(QUIZ_QUESTIONS)}</div>`);
     shuffle(answer).forEach(hero => {
-        $answer.append(`<div><button type="radio" class="answerOption" value="${hero.custID}" onclick="checkAnswer(event,${correctID})"> ${hero.custName}</button></div>`);
+        $answer.append(`<div><button type="radio" class="answerOption" value="${hero.custID}" onclick="checkAnswer(event,${correctID})" ontouchend="checkAnswer(event,${correctID})"> ${hero.custName}</button></div>`);
     })
 
     console.log(shop.getCustomerByID(correctID).custName);
 };
 
 //Event listener
-$modalButton.on('click', () => {
+$modalButton.on('click tap', () => {
     closeMessage();
 
     //check if start new day
@@ -694,11 +694,4 @@ $(() => {
     //Day Cycle
     setMessage(DAY_MESSAGE_TITLE[shop.currDay], START_DAY, WELCOME_MESSAGE_CONTENT);
     setTimeout(displayMessage, 1000);
-
-
-
-
-
-
-
 });
