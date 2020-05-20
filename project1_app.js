@@ -3,6 +3,7 @@ const ZERO = 0;
 const HAPPY = 'happy';
 const ANGRY = 'angry';
 const START_DAY = 'Start Day';
+const DEFAULT_CURR = 'SGD';
 const DAY_SECONDS = 20;
 const CUST_DELAY_IN_MS = 1000; //1 sec
 const NUM_OF_SLOT = 5;
@@ -16,7 +17,6 @@ const DAY_MESSAGE_TITLE = ['Ready for your first day?'];
 const WELCOME_MESSAGE_CONTENT = `Superheroes will teleport into our store soon. <br/>Just drag the food they order to the Superheroes image to serve. <br/>They will pay you when they leave, uhm.. <br/>provided that you completed the order before store close. <br/>`
 const ENTRY_GREETINGS = ['Hullo', 'Hi', 'Ooosh!', 'How do you do', 'Goodday', 'G\'day', 'Good afternoon'];
 const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
-const DAY_SUMMARY = ['', 'Summary of Day 1', 'Summary of Day 2', 'Summary of Day 3', 'Summary of Day 4', 'Summary of Day 5'];
 const FOOD_ARR = [ //plan to read from files in the future
     { foodID: 0, foodName: 'Oolong Tea', foodIngredients: 'Tea', foodOrigin: 'China', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 6, foodPriceinSGD: 2, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/jDVRwQ0/drink-tea.png' },
     { foodID: 1, foodName: 'Arabica Coffee', foodIngredients: 'Coffee', foodOrigin: 'Indonesia', foodType: 'Drink', foodMethod: 'Boil', foodCostFrSupplier: 15000, foodPriceinSGD: 2.5, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/5xy7jMz/drink-coffee.png' },
@@ -27,6 +27,12 @@ const FOOD_ARR = [ //plan to read from files in the future
     { foodID: 6, foodName: 'Hainan Chicken', foodIngredients: 'Chicken', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 18.25, foodPriceinSGD: 6, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png' },
     { foodID: 7, foodName: 'Steam Fish', foodIngredients: 'Fish', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 20.3, foodPriceinSGD: 7, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/rssrvZL/food-steam-Fish.png' },
     { foodID: 8, foodName: 'Thai Rice', foodIngredients: 'Rice', foodOrigin: 'Thailand', foodType: 'Carbo', foodMethod: 'Steam', foodCostFrSupplier: 40, foodPriceinSGD: 3, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/TvddwdV/food-Rice.png' }
+]
+const SUPPLIER_ARR = [
+    { supplierCountry: 'Singapore', supplierCurrency: 'SGD', currencyRate: 1 },
+    { supplierCountry: 'China', supplierCurrency: 'CNY', currencyRate: 4.5 },
+    { supplierCountry: 'Thailand', supplierCurrency: 'THB', currencyRate: 20.808 },
+    { supplierCountry: 'Indonesia', supplierCurrency: 'IDR', currencyRate: 9413.1 }
 ]
 
 //DOM variables  
@@ -48,24 +54,41 @@ const generateRandomFoodItem = (percentage, arrPossibleFood) => { //probability 
     };
 }
 
+const formatCurr = (float) => {
+    float = parseFloat(float).toFixed(2);
+    return DEFAULT_CURR + ' ' + float.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
 //classes
+
+
 class Shop {
     constructor() {
         this.currDay = ZERO;
         this.isStoreOpen = false;
         this.level = 1;
         this.todayEarning = ZERO;
-        this.todayHappyCust = ZERO;
         this.todayCost = ZERO;
+        this.todayProfit = ZERO;
+        this.todayHappyCust = ZERO;
         this.todayCust = [];
         this.todayFood = [];
+        this.todaySupplier = [];
         this.todayUniqueCustID = [];
+        this.todaySummary = ['']; //it's purposely initiated with a empty string to skip the 0 index of array
+        this.historicalEarning = [''];
+        this.historicalCost = [''];
+        this.historicalProfit = [''];
     }
     getCustomerByID(id) {
         return this.todayCust.find(customer => customer.custID === id);
     }
     getFoodByID(id) {
         return this.todayFood.find(food => food.foodID === id);
+    }
+    getSupplierByCountry(country) {
+        return this.todaySupplier.find(supplier => supplier.originCountry === country);
     }
     prepare() {
         resetVars();
@@ -78,16 +101,43 @@ class Shop {
         //generate customer with random order till the timer run out
         generateInitialCustomer();
     }
+    calcCost(customer) {
+        let cost = 0;
+        customer.custOrder.forEach(food => {
+            cost += food.foodCostFrSupplier / this.getSupplierByCountry(food.foodOrigin).originRate;
+        })
+        this.todayCost += cost;
+    }
+    calcProfit() {
+        this.todayProfit = this.todayEarning - this.todayCost;
+    }
+    recordDailySales() {
+        this.historicalEarning.push(this.todayEarning);
+        this.historicalCost.push(this.todayCost);
+        this.historicalProfit.push(this.todayProfit);
+    }
+    formatAndSaveSalesSummary() {
+        let salesSummary = '';
+        salesSummary += `<table>`;
+        salesSummary += `<tr><td>Today's Sales</td><td>${formatCurr(this.todayEarning)}</td></tr>`;
+        salesSummary += `<tr><td>Cost of Food</td><td>${formatCurr(this.todayCost)}</td></tr>`;
+        salesSummary += `<tr><td>Today's Profit</td><td>${formatCurr(this.todayProfit)}</td></tr>`;
+        salesSummary += `</table>`;
+        this.todaySummary.push(salesSummary);
+    }
     close() {
         console.log(`closing store for day ${this.currDay}`);
         shop.isStoreOpen = false;
+        this.calcProfit();
+        this.recordDailySales();
+        this.formatAndSaveSalesSummary();
         cleaningSlots();
     }
 }
 
 class Customer {
     constructor(cID, cName, cURL) {
-        this.custID = cID; //408  xxx.find(408).custName
+        this.custID = cID;
         this.custName = cName;
         this.custMoney = 100;
         this.custImage = cURL;
@@ -101,7 +151,6 @@ class Customer {
     enter() {
         //enter the store
         //pick empty slot
-        // console.log($('.empty:eq(0)').text()); /* debug */
         this.custSlot = $('.empty:eq(0)').attr('id');
         $('.empty:eq(0)').removeClass('empty');
         $('#' + this.custSlot)
@@ -140,15 +189,13 @@ class Customer {
     }
     checkOrder(foodID) {
         const servedFood = shop.getFoodByID(parseInt(foodID));
-        // console.log('servedFood: ', servedFood);
-        // console.log('custOrder: ', this.custOrder);
         if ((this.custOrder.indexOf(servedFood) >= 0) && (shop.isStoreOpen)) {
             this.custFulfilled.push(servedFood);
-            // console.log('custFulfilled: ', this.custFulfilled);
             this.sayOrder();
             if (this.isOrderCompleted()) {
                 delayedAction(() => {
-                    this.pay();
+                    this.settleBill();
+                    shop.calcCost(this);
                     this.leave(HAPPY);
                 }, CUST_DELAY_IN_MS)
                     .then(() => {
@@ -170,7 +217,7 @@ class Customer {
             return false;
         };
     }
-    pay() {
+    settleBill() {
         let receipt = 0;
         this.custOrder.forEach(food => {
             receipt += food.foodPriceinSGD;
@@ -213,20 +260,17 @@ class Food {
     }
 }
 
-class FoodOrigin {
-    constructor(country, currency, rate) {
-        this.originCountry = country || 'Singapore';
-        this.originCurrency = currency || 'SGD';
-        this.originRate = rate || 1;
+class SupplierOrigin {
+    constructor(spObj) {
+        this.originCountry = spObj.supplierCountry;
+        this.originCurrency = spObj.supplierCurrency;
+        this.originRate = spObj.currencyRate;
     }
 }
 
 //instances
 const shop = new Shop([]);
-const singapore = new FoodOrigin('Singapore', 'SGD', 1);
-const china = new FoodOrigin('China', 'CNY', 4.5);
-const thailand = new FoodOrigin('Thailand', 'THB', 20.808);
-const indonesia = new FoodOrigin('Indonesia', 'IDR', 9413.1);
+
 
 //various functions
 const randomizeCustOrder = () => { //array of 4 food item from todayFood
@@ -246,7 +290,7 @@ const randomizeCustOrder = () => { //array of 4 food item from todayFood
     return cOrder;
 };
 
-const buildTodayFOOD_ARR = (num) => {
+const buildTodayFoodArr = () => {
     let food = null;
     FOOD_ARR.forEach(obj => {
         food = new Food(obj);
@@ -254,6 +298,14 @@ const buildTodayFOOD_ARR = (num) => {
         // console.log(food);
     });
     // console.log(shop.todayFood); /* debug */
+}
+
+const buildTodaySupplierArr = () => {
+    let supplier = null;
+    SUPPLIER_ARR.forEach(obj => {
+        supplier = new SupplierOrigin(obj);
+        shop.todaySupplier.push(supplier);
+    });
 }
 
 const displayFood = () => {
@@ -288,14 +340,15 @@ const displayFood = () => {
 
 const prepareFood = () => {
     console.log(`preparing food for day ${shop.currDay}`);
-    buildTodayFOOD_ARR(NUM_OF_FOOD);
+    buildTodaySupplierArr();
+    buildTodayFoodArr();
     displayFood();
 }
 
 const resetVars = () => {
     shop.todayEarning = ZERO;
     shop.todayHappyCust = ZERO;
-    shop.todayCost = [];
+    shop.todayCost = ZERO;
     shop.todayFood.splice(ZERO, shop.todayFood.length); //empty array without reassigning
     shop.todayCust.splice(ZERO, shop.todayCust.length);
     shop.todayUniqueCustID.splice(ZERO, shop.todayUniqueCustID.length);
@@ -401,15 +454,16 @@ const progress = (timeleft, timetotal, $element) => {
     } else {
         setTimeout(() => {
             shop.close();//calculate the summary
-            setMessage(DAY_SUMMARY[shop.currDay], START_DAY);
+            setMessage(`Summary for Day ${(shop.currDay)}`, START_DAY, shop.todaySummary[(shop.currDay)]);
             setTimeout(displayMessage, 1000);
         }, 1000);
     }
 
 };
 
-const startDay = (day, DAY_SECONDS) => {
-    console.log(`Started day ${day}`);
+const startDay = (DAY_SECONDS) => {
+    shop.currDay++;
+    console.log(`Started day ${shop.currDay}`);
     shop.prepare(); //all the display preparation
     shop.open(); //where customer come in
     progress(DAY_SECONDS, DAY_SECONDS, $('#timebar'));
@@ -431,9 +485,7 @@ const setMessage = (newTitle, buttonText = 'Next', newContent = '') => {
         $modalContent.html(newContent);
         $modalContent.css('display', 'block');
     }
-
     $modalButton.text(buttonText);
-    $modalButton.focus();
 }
 
 //Event listener
@@ -442,13 +494,12 @@ $modalButton.on('click', (Event) => {
 
     //check if start new day
     if ($modalButton.text() === START_DAY) {
-        shop.currDay++;
-        startDay(shop.currDay, DAY_SECONDS);
+        startDay(DAY_SECONDS);
     }
 });
 
-$(document).on('keypress',function(key) {
-    if(key.which == 13) {
+$(document).on('keypress', function (key) {
+    if ((key.which == 13) && $modal.css('display') === 'block') {
         $modalButton.click();
     }
 });
