@@ -236,6 +236,10 @@ class Customer {
             $('#' + this.custSlot)
                 .css('background-image', `url("${this.custImage}")`)
                 .attr('custid', this.custID);
+            //do the same for counter space in front of it
+            $('.emptyctr:eq(0)').removeClass('emptyctr');
+            $('#' + this.custSlot + 'cntr')
+                .attr('custid', this.custID);
         }
     }
     greet() {
@@ -428,6 +432,26 @@ const displayFood = () => {
     $(".draggable").draggable({ helper: "clone" });
     //make customer droppable
     $(".customer").droppable({
+        accept: ".draggable",
+        drop: function (event, ui) {
+            if (shop.isStoreOpen) {
+                $(this).removeClass("border").removeClass("over");
+                const custID = $(event.target).attr('custid');
+                const thisCust = shop.getCustomerByID(custID);
+                thisCust.checkOrder(ui.draggable.attr('id'));
+            }
+        },
+        over: function (event, elem) {
+            if (shop.isStoreOpen) {
+                $(this).addClass("over");
+            }
+        },
+        out: function (event, elem) {
+            $(this).removeClass("over");
+        }
+    });
+    //make counter droppable
+    $(".counter").droppable({
         accept: ".draggable",
         drop: function (event, ui) {
             if (shop.isStoreOpen) {
