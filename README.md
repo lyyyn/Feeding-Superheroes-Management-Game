@@ -6,7 +6,7 @@ You will be managing a shop especially serving superheroes. Drag and drop food d
 When you completed the set requested by superhero, you will get paid. On top of that, if you recognized the superheroes and guessed the name correctly, they will give you extra tip, provided that you completed their order, of course.
 
 ## Game Link
-[https://lyyyn.github.io/Feeding-Superheroes/](https://lyyyn.github.io/Feeding-Superheroes-Management-Game/)
+[https://lyyyn.github.io/Feeding-Superheroes-Management-Game/](https://lyyyn.github.io/Feeding-Superheroes-Management-Game/)
 
 ## Technologies
 * **HTML**
