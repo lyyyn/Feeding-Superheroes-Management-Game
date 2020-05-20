@@ -4,7 +4,7 @@
 * {
     margin: 0;
     padding: 0;
-    border: 0.05rem solid gainsboro;
+    /* border: 0.05rem solid gainsboro; */
     outline: 0;
     vertical-align: baseline;
     background: transparent;
@@ -28,6 +28,10 @@ img {
 
 del {
     border: none;
+}
+
+h1 {
+    font-size: 2.5rem;
 }
 
 /* flex class */
@@ -91,6 +95,13 @@ del {
     border-color: steelblue;
 }
 
+.wood {
+    background-color: #6c2505;
+    background-size: 40px 160px, 60px 29px, 27px 27px;
+    /* background-image: linear-gradient(94deg, rgba(91, 33, 5, 0.1) 0%, rgba(83, 29, 4, 0.32) 23%, rgba(74, 24, 3, 0.41) 47%, rgba(80, 27, 5, 0.44) 70%, rgba(81, 27, 5, 0.59) 74%, rgba(93, 33, 4, 0.2) 83%, rgba(115, 43, 3, 0.5) 100%), linear-gradient(90deg, #541c09 50%, transparent 50%), linear-gradient(90deg, #7a2e00 50%, #632401 50%); */
+    background-image: linear-gradient(60deg, rgba(91, 33, 5, 0.1) 0%, rgba(83, 29, 4, 0.32) 23%, rgba(74, 24, 3, 0.41) 47%, rgba(80, 27, 5, 0.44) 70%, rgba(81, 27, 5, 0.59) 74%, rgba(93, 33, 4, 0.2) 83%, rgba(115, 43, 3, 0.5) 100%), linear-gradient(45deg, #541c09 50%, transparent 50%), linear-gradient(55deg, #7a2e00 50%, #632401 50%);
+}
+
 .fullwidth {
     width: 100%;
 }
@@ -108,6 +119,7 @@ container {
 
 topbar {
     height: 40px;
+    padding-left: 15px;
     background-color: black;
     color: white;
 }
@@ -194,22 +206,25 @@ main {
     width: 0;
 }
 
+kitchentop {
+    padding-top: 20px;
+}
+
 counter {
-    background-color: #6c2505;
-    background-size: 40px 160px, 60px 29px, 27px 27px;
-    /* background-image: linear-gradient(94deg, rgba(91, 33, 5, 0.1) 0%, rgba(83, 29, 4, 0.32) 23%, rgba(74, 24, 3, 0.41) 47%, rgba(80, 27, 5, 0.44) 70%, rgba(81, 27, 5, 0.59) 74%, rgba(93, 33, 4, 0.2) 83%, rgba(115, 43, 3, 0.5) 100%), linear-gradient(90deg, #541c09 50%, transparent 50%), linear-gradient(90deg, #7a2e00 50%, #632401 50%); */
-    background-image: linear-gradient(60deg, rgba(91, 33, 5, 0.1) 0%, rgba(83, 29, 4, 0.32) 23%, rgba(74, 24, 3, 0.41) 47%, rgba(80, 27, 5, 0.44) 70%, rgba(81, 27, 5, 0.59) 74%, rgba(93, 33, 4, 0.2) 83%, rgba(115, 43, 3, 0.5) 100%), linear-gradient(45deg, #541c09 50%, transparent 50%), linear-gradient(55deg, #7a2e00 50%, #632401 50%);
+    border: 2px solid black;
 }
 
 .counter {
+    background-color: rgb(255, 200, 61, 0.7);
     width: 100px;
     height: 50px;
 }
 
 tray {
     background-color: #000;
-    width: 190px;
-    height: 190px;
+    width: 250px;
+    height: 250px;
+    padding-top: 5px;
 }
 
 serving, cashier {
@@ -219,32 +234,17 @@ serving, cashier {
 }
 
 food {
-    width: 60px;
-    height: 60px;
-}
-
-food img {
-    width: 60px;
-    height: 60px;
-}
-
-.over {
-    border: 2px solid rgb(240, 58, 23);
-}
-
-bento {
-    width: 160px;
-    height: 160px;
-}
-
-box {
     width: 75px;
     height: 75px;
 }
 
-box img {
-    width: 100%;
-    height: 100%;
+food img {
+    width: 75px;
+    height: 75px;
+}
+
+.over {
+    border: 2px solid rgb(240, 58, 23);
 }
 
 cooker, laptop {
@@ -273,17 +273,32 @@ action {
     /*Set this to `none` so that the modal does not show initially on page load.*/
 }
 
-#modal-textbox {
-    background-color: white;
+#modal-container {
+    /* background-color: white; */
+    background-image:radial-gradient(circle, rgb(255, 200, 61), orange);
     height: 350px;
     width: 550px;
     border-radius: 10px;
-    padding: 2%;
-    line-height: 100%;
+    padding: 3% 2%;
     margin: 75px auto;
     /*This will set the margins for the top and the bottom to 150px (or larger). The right and left will automatically set themselves (and keep the box centered horizontally).*/
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     /*This will give the box some depth.*/
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+#modal-title {}
+
+#modal-content {
+    font-family: 'Comic Sans', cursive;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 175%;
+    flex-grow: 10;
+    padding: 10px 0;
+    align-self: flex-start;
 }
 
 #modal-footer {

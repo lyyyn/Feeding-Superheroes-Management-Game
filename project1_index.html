@@ -36,7 +36,7 @@
                 <div class="customer empty" id="slot4"></div>
                 <div class="customer empty" id="slot5"></div>
             </customer>
-            <counter class="flex nowrap space-evenly fullwidth">
+            <counter class="flex nowrap space-evenly fullwidth wood">
                 <div class="counter">Counter A</div>
                 <div class="counter">Counter B</div>
                 <div class="counter">Counter C</div>
@@ -46,9 +46,9 @@
             <kitchen class="flex col nowrap fullwidth">
                 <kitchentop class="flex nowrap space-between">
                     <serving class="flex space-center align-center">
-                        Serving, empty now
+                        Locked
                     </serving>
-                    <tray class="flex wrap space-evenly" id="tray">
+                    <tray class="flex wrap space-evenly wood" id="tray">
                         <food class="food">Ing1</food>
                         <food class="food">Ing2</food>
                         <food class="food">Ing3</food>
@@ -59,11 +59,11 @@
                         <food class="food">Ing8</food>
                         <food class="food">Ing9</food>
                     </tray>
-                    <cashier>
-                        Cashier, empty for now
+                    <cashier class="flex space-center align-center">
+                        Locked
                     </cashier>
                 </kitchentop>
-                <kitchenbottom class="flex nowrap space-between">
+                <!-- <kitchenbottom class="flex nowrap space-between">
                     <cooker>
                         Cooker
                     </cooker>
@@ -73,18 +73,21 @@
                     <laptop>
                         Laptop
                     </laptop>
-                </kitchenbottom>
+                </kitchenbottom> -->
             </kitchen>
         </main>
     </container>
     <div id="modal">
-        <div id="modal-textbox">
-
+        <div id="modal-container">
+            <h1 id="modal-title"></h1>
             <div id="modal-content">
-                Content here
+                Superheroes will teleport into our store soon. <br/>
+                Just drag the food they order to the Superheroes image to serve. <br/>
+                They will pay you when they leave, uhm.. <br/>
+                provided that you completed the order before store close. <br/>
             </div>
             <div id="modal-footer">
-                <button class="modal-buttons" id="modal-close" href="#">Start</button>
+                <button class="modal-buttons" id="modal-close" href="#0">Start</button>
             </div>
         </div>
     </div>
