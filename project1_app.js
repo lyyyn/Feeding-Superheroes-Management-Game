@@ -5,7 +5,7 @@ const ANGRY = 'angry';
 const START_DAY = 'Start Day';
 const DEFAULT_CURR = 'SGD';
 const DAY_SECONDS = 20;
-const CUST_DELAY_IN_MS = 1000; //1 sec
+const CUST_DELAY_IN_MS = 500; //0.5 sec
 const NUM_OF_SLOT = 5;
 const NUM_OF_FOOD = 9;
 const NUM_OF_SUPERHEROES = 729;
@@ -15,6 +15,7 @@ const ORDER_COMPOSITION = [[0, 1, 2], [3], [4, 5, 6, 7], [8]]; //create into cla
 const ORDER_NULL_PROBABILITY = 30;
 const DAY_MESSAGE_TITLE = ['Ready for your first day?'];
 const WELCOME_MESSAGE_CONTENT = `Superheroes will teleport into our store soon. <br/>Just drag the food they order to the Superheroes image to serve. <br/>They will pay you when they leave, uhm.. <br/>provided that you completed the order before store close. <br/>`
+const QUIZ_QUESTIONS = ['You look familiar. Are you', 'Hey! I think I know you', 'Do I know you?', 'Have we met before?', 'I\'ve seen you somewhere', 'And your name must be', 'I know you!', 'It\'s been a while,']
 const ENTRY_GREETINGS = ['Hullo', 'Hi', 'Ooosh!', 'How do you do', 'Goodday', 'G\'day', 'Good afternoon'];
 const ORDER_GREETINGS = ['I want to order ', 'Gimme ', 'Maybe I\'ll get ', 'For today, it\'ll be ', 'Please give me ', 'How about ', 'I\'d like ', 'Just '];
 const FOOD_ARR = [ //plan to read from files in the future
@@ -27,13 +28,13 @@ const FOOD_ARR = [ //plan to read from files in the future
     { foodID: 6, foodName: 'Hainan Chicken', foodIngredients: 'Chicken', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 18.25, foodPriceinSGD: 6, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/whGnH4k/food-steamed-Chicken.png' },
     { foodID: 7, foodName: 'Steam Fish', foodIngredients: 'Fish', foodOrigin: 'China', foodType: 'Meat', foodMethod: 'Steam', foodCostFrSupplier: 20.3, foodPriceinSGD: 7, foodRating: 2, foodQty: 10, foodImage: 'https://i.ibb.co/rssrvZL/food-steam-Fish.png' },
     { foodID: 8, foodName: 'Thai Rice', foodIngredients: 'Rice', foodOrigin: 'Thailand', foodType: 'Carbo', foodMethod: 'Steam', foodCostFrSupplier: 40, foodPriceinSGD: 3, foodRating: 1, foodQty: 10, foodImage: 'https://i.ibb.co/TvddwdV/food-Rice.png' }
-]
+];
 const SUPPLIER_ARR = [
     { supplierCountry: 'Singapore', supplierCurrency: 'SGD', currencyRate: 1 },
     { supplierCountry: 'China', supplierCurrency: 'CNY', currencyRate: 4.5 },
     { supplierCountry: 'Thailand', supplierCurrency: 'THB', currencyRate: 20.808 },
     { supplierCountry: 'Indonesia', supplierCurrency: 'IDR', currencyRate: 9413.1 }
-]
+];
 
 //Chart Global Config
 Chart.defaults.global.legend.display = false;
@@ -48,11 +49,13 @@ const $modal = $('#modal');
 const $modalTitle = $('#modal-title');
 const $modalContent = $('#modal-content');
 const $modalButton = $('#modal-close');
+const $customer = $('.customer');
+const $answer = $('#answer');
 
 //utility functions
 const getRandom = (arr) => {
     return arr[Math.floor(Math.random() * arr.length)];
-}
+};
 
 const generateRandomFoodItem = (percentage, arrPossibleFood) => { //probability of returning null or any of the array
     if ((Math.floor(Math.random() * 101)) <= percentage) {
@@ -60,17 +63,34 @@ const generateRandomFoodItem = (percentage, arrPossibleFood) => { //probability 
     } else {
         return shop.todayFood[getRandom(arrPossibleFood)];
     };
-}
+};
 
 const formatCurr = (float) => {
     float = parseFloat(float).toFixed(2);
     return DEFAULT_CURR + ' ' + float.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+const shuffle = (arr) => {
+    let arrCnt = arr.length;
+    let tempArr;
+    let index;
+
+    // While there are elements in the array
+    while (arrCnt > 0) {
+        // Pick a random index
+        index = Math.floor(Math.random() * arrCnt);
+        // Decrease arrCnt by 1
+        arrCnt--;
+        // And swap the last element with it
+        tempArr = arr[arrCnt];
+        arr[arrCnt] = arr[index];
+        arr[index] = tempArr;
+    }
+    return arr;
 }
 
 
 //classes
-
-
 class Shop {
     constructor() {
         this.currDay = ZERO;
@@ -168,14 +188,15 @@ class Shop {
             this.createPieChart();
         }, CUST_DELAY_IN_MS)
     }
-}
+};
 
 class Customer {
-    constructor(cID, cName, cURL) {
-        this.custID = cID;
-        this.custName = cName;
+    constructor() {
+        this.custID = '';
+        this.custName = '';
+        this.custGender = '';
         this.custMoney = 100;
-        this.custImage = cURL;
+        this.custImage = '';
         this.custPatience = 5; //willing to wait for 5 secs
         this.custOrder = [];
         this.custFulfilled = [];
@@ -222,7 +243,8 @@ class Customer {
         //display the order bubble
         if (shop.isStoreOpen) {
             $('#' + this.custSlot)
-                .html(`<span>${this.custOrderSaying}</span>`);
+                //&#128161;💡  &#128172;💬  &#129300;🤔
+                .html(`<button class="quiz" onclick="askQuiz(event)">${String.fromCodePoint(128172)}</button> <span>${this.custOrderSaying}</span>`);
         }
     }
     checkOrder(foodID) {
@@ -288,7 +310,7 @@ class Customer {
             .attr('custid', '')
             .addClass('empty');
     }
-}
+};
 
 class Food {
     constructor(fdObj) {
@@ -304,7 +326,7 @@ class Food {
         this.foodQty = fdObj.foodQty;
         this.foodImage = fdObj.foodImage;
     }
-}
+};
 
 class SupplierOrigin {
     constructor(spObj) {
@@ -312,7 +334,7 @@ class SupplierOrigin {
         this.originCurrency = spObj.supplierCurrency;
         this.originRate = spObj.currencyRate;
     }
-}
+};
 
 //instances
 const shop = new Shop([]);
@@ -341,10 +363,8 @@ const buildTodayFoodArr = () => {
     FOOD_ARR.forEach(obj => {
         food = new Food(obj);
         shop.todayFood.push(food);
-        // console.log(food);
     });
-    // console.log(shop.todayFood); /* debug */
-}
+};
 
 const buildTodaySupplierArr = () => {
     let supplier = null;
@@ -352,7 +372,7 @@ const buildTodaySupplierArr = () => {
         supplier = new SupplierOrigin(obj);
         shop.todaySupplier.push(supplier);
     });
-}
+};
 
 const displayFood = () => {
     shop.todayFood.forEach((element, index) => {
@@ -382,14 +402,14 @@ const displayFood = () => {
             $(this).removeClass("over");
         }
     });
-}
+};
 
 const prepareFood = () => {
     console.log(`preparing food for day ${shop.currDay}`);
     buildTodaySupplierArr();
     buildTodayFoodArr();
     displayFood();
-}
+};
 
 const resetVars = () => {
     shop.todayEarning = ZERO;
@@ -399,23 +419,23 @@ const resetVars = () => {
     shop.todayFood.splice(ZERO, shop.todayFood.length); //empty array without reassigning
     shop.todayCust.splice(ZERO, shop.todayCust.length);
     shop.todayUniqueCustID.splice(ZERO, shop.todayUniqueCustID.length);
-}
+};
 
 const cleaningSlots = () => {
-    //remov
-    $('.customer').css('background-image', '');
-    $('.customer').empty();
-    $('.customer').addClass('empty');
-    $('.customer').removeClass('over');
-    $('.customer').attr('custid', '');
-}
+    $customer.css('background-image', '');
+    $customer.empty();
+    $customer.addClass('empty');
+    $customer.removeClass('over');
+    $customer.attr('custid', '');
+    $answer.empty();
+};
 
 const updateDisplay = () => {
     $('#day').text(`Day: ${shop.currDay}`);
     $('#money').text(`SGD ${shop.totalProfit.toFixed(2)}`);
     $('#happy').text(`${String.fromCodePoint(128523)} ${shop.totalHappyCust}`); //&#128523; smiley deliciously 😋
-    //&#128545; angry face 😡
-}
+    //&#128545; angry face 😡 
+};
 
 const delayedAction = (callback, timer) => {
     return new Promise(resolve => {
@@ -435,6 +455,7 @@ const fetchCustomer = (unqID) => {
             shop.todayCust.push(currCust);
             currCust.custID = data.id;
             currCust.custName = data.name;
+            currCust.custGender = data.appearance.gender;
             currCust.custImage = data.image.url;
             currCust.enter();
             delayedAction(() => {
@@ -453,16 +474,17 @@ const fetchCustomer = (unqID) => {
         .catch(error => {
             console.log('err: ', error);
         });
-}
+};
 
 const getUniqueSuperheroesID = () => {
+    //ensure the superheroes of 1 day is unique
     let newSuperheroID = Math.ceil(Math.random() * NUM_OF_SUPERHEROES);
     while ((shop.todayUniqueCustID.includes(newSuperheroID)) || (LIST_OF_BROKEN_HEROES.includes(newSuperheroID))) {
         newSuperheroID = Math.ceil(Math.random() * NUM_OF_SUPERHEROES);;
     };
     shop.todayUniqueCustID.push(newSuperheroID);
     return newSuperheroID;
-}
+};
 
 const generateInitialCustomer = () => {
     delayedAction(() => {
@@ -488,7 +510,7 @@ const generateInitialCustomer = () => {
                 fetchCustomer(getUniqueSuperheroesID());
             }, CUST_DELAY_IN_MS)
         })
-}
+};
 
 const progress = (timeleft, timetotal, $element) => {
     var progressBarWidth = timeleft * $element.width() / timetotal;
@@ -514,15 +536,15 @@ const startDay = (DAY_SECONDS) => {
     shop.prepare(); //all the display preparation
     shop.open(); //where customer come in
     progress(DAY_SECONDS, DAY_SECONDS, $('#timebar'));
-}
+};
 
 const displayMessage = () => {
     $modal.css('display', 'block');
-}
+};
 
 const closeMessage = () => {
     $modal.css('display', 'none');
-}
+};
 
 const setMessage = (newTitle, buttonText = 'Next', newContent = '') => {
     $modalTitle.text(newTitle);
@@ -533,10 +555,50 @@ const setMessage = (newTitle, buttonText = 'Next', newContent = '') => {
         $modalContent.css('display', 'block');
     }
     $modalButton.text(buttonText);
-}
+};
+
+const checkAnswer = (event,correctID) => {
+    const selectedID = $(event.target).val();
+    const hero = shop.getCustomerByID(correctID.toString());
+    const pronouns = (hero.custGender === 'Female')? 'She' : 'He';
+    if (selectedID === correctID.toString()) {
+        $answer.empty();
+        $answer.html(`<p>You've correctly identified ${hero.custName}.</p>`);        
+    } else{
+        $answer.empty();
+        $answer.html(`<p>Sorry, you must be mistaken.</p>`);   
+    }
+};
+
+const askQuiz = (event) => {
+    //get any random 2 of today's customer + correct customer
+    let wrong = null;
+    let wrongCnt = 0;
+    const correctID = $(event.target).parent().attr('custid');
+    let answer = [];
+
+    while (wrongCnt < 2) {
+        wrong = getRandom(shop.todayCust);
+        if ((wrong.custID != correctID) && (answer.filter(cust => cust.custID === wrong.custID).length === 0)) {
+            answer.push(wrong);
+            wrongCnt++;
+        }
+
+    }
+    answer.push(shop.getCustomerByID(correctID));
+    console.log(answer);
+
+    $answer.empty();
+    $answer.append(`<div>${getRandom(QUIZ_QUESTIONS)}</div>`);
+    shuffle(answer).forEach(hero => {
+        $answer.append(`<div><input type="radio" value="${hero.custID}" onclick="checkAnswer(event,${correctID})"> ${hero.custName}</div>`);
+    })
+
+    console.log(shop.getCustomerByID(correctID).custName);
+};
 
 //Event listener
-$modalButton.on('click', (Event) => {
+$modalButton.on('click', () => {
     closeMessage();
 
     //check if start new day
