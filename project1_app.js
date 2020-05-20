@@ -43,6 +43,9 @@ Chart.defaults.global.legend.display = false;
 //Audio variables
 const SND_CUST_ENTER = new Audio('./Sounds/cust_enter.mp3');
 const SND_STORE_CLOSE = new Audio('./Sounds/store_close.mp3');
+const SND_STORE_OPEN = new Audio('./Sounds/store_open.mp3');
+const SND_CORRECT = new Audio('./Sounds/tada.mp3');
+const SND_WRONG = new Audio('./Sounds/tetot.mp3');
 
 //DOM variables  
 const $modal = $('#modal');
@@ -127,7 +130,9 @@ class Shop {
         updateDisplay();
     }
     open() {
+        SND_STORE_OPEN.play();
         console.log(`store is open for day ${this.currDay}`);
+        
         shop.isStoreOpen = true;
         //generate customer with random order till the timer run out
         generateInitialCustomer();
@@ -562,9 +567,11 @@ const checkAnswer = (event,correctID) => {
     const hero = shop.getCustomerByID(correctID.toString());
     const pronouns = (hero.custGender === 'Female')? 'She' : 'He';
     if (selectedID === correctID.toString()) {
+        SND_CORRECT.play();
         $answer.empty();
         $answer.html(`<p>You've correctly identified ${hero.custName}.</p>`);        
     } else{
+        SND_WRONG.play();
         $answer.empty();
         $answer.html(`<p>Sorry, you must be mistaken.</p>`);   
     }
